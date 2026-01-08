@@ -180,32 +180,6 @@ a { color: inherit; text-decoration: none; }
 
 .module__extra.show { display: block; }
 
-.quiz__questions { display: grid; gap: 14px; }
-
-.quiz__options { display: grid; gap: 8px; }
-
-.option {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background: #eef3ff;
-  color: var(--text);
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s ease;
-  font-weight: 600;
-}
-
-.option:hover,
-.option:focus-visible { transform: translateY(-1px); outline: none; }
-
-.option.selected { border-color: var(--primary); background: #e1ebff; }
-.option.correct { border-color: #22c55e; background: #e7f9ef; }
-.option.incorrect { border-color: #ef4444; background: #ffecec; }
-
-.quiz__actions { margin-top: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.quiz__score { font-weight: 700; color: var(--primary); }
-
 .challenge { display: grid; gap: 10px; }
 .challenge__permission {
   display: flex;
@@ -573,7 +547,6 @@ li {
   margin-left:20px
 }
 
-/* Chat-style end quiz */
 .pill {
   display: inline-flex;
   align-items: center;

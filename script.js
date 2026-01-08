@@ -1,7 +1,5 @@
 // Storage keys
 const STORAGE_KEYS = {
-  basics: "adc-quiz-basics",
-  privacy: "adc-quiz-privacy",
   modules: "adc-modules",
   theme: "adc-theme"
 };
@@ -77,7 +75,6 @@ moduleCards.forEach((card) => {
     moduleProgress[id] = true;
     updateModuleUI(card, true);
     writeStore(STORAGE_KEYS.modules, moduleProgress);
-    updateProgressCard();
   });
 
   if (moduleProgress[id]) updateModuleUI(card, true);
@@ -136,59 +133,6 @@ if (moduleModeButtons.length && moduleSectionsArr.length) {
 
   applyMode("sequence");
 }
-
-// Quiz logic: selection + grading
-const quizzes = document.querySelectorAll(".quiz");
-quizzes.forEach((quiz) => {
-  quiz.querySelectorAll(".option").forEach((opt) => {
-    opt.addEventListener("click", () => {
-      const question = opt.closest(".quiz__question");
-      question.querySelectorAll(".option").forEach((o) => o.classList.remove("selected"));
-      opt.classList.add("selected");
-    });
-  });
-
-  quiz.querySelector(".quiz__check").addEventListener("click", () => {
-    const score = gradeQuiz(quiz);
-    const total = quiz.querySelectorAll(".quiz__question").length;
-    const message = score >= 4 ? "Great job, AI explorer!" : score >= 2 ? "Nice try, keep learning!" : "No worries, try again!";
-    quiz.querySelector(".quiz__score").textContent = `Score: ${score} / ${total} — ${message}`;
-
-    const key = quiz.id === "quiz-basics" ? STORAGE_KEYS.basics : STORAGE_KEYS.privacy;
-    writeStore(key, score);
-    updateProgressCard();
-  });
-});
-
-function gradeQuiz(quiz) {
-  let score = 0;
-  quiz.querySelectorAll(".quiz__question").forEach((q) => {
-    const correct = q.dataset.answer;
-    q.querySelectorAll(".option").forEach((o) => o.classList.remove("correct", "incorrect"));
-    const chosen = q.querySelector(".option.selected");
-    q.querySelector(`.option[data-option="${correct}"]`).classList.add("correct");
-    if (chosen) {
-      if (chosen.dataset.option === correct) score += 1;
-      else chosen.classList.add("incorrect");
-    }
-  });
-  return score;
-}
-
-// Progress card display
-function updateProgressCard() {
-  const basicsEl = document.getElementById("progressBasics");
-  const privacyEl = document.getElementById("progressPrivacy");
-  const modulesEl = document.getElementById("progressModules");
-  if (!basicsEl || !privacyEl || !modulesEl) return;
-  const basicsScore = readStore(STORAGE_KEYS.basics, 0);
-  const privacyScore = readStore(STORAGE_KEYS.privacy, 0);
-  const moduleCount = Object.keys(readStore(STORAGE_KEYS.modules, {})).length;
-  basicsEl.textContent = `${basicsScore}/5`;
-  privacyEl.textContent = `${privacyScore}/5`;
-  modulesEl.textContent = `${moduleCount}/${totalModules}`;
-}
-updateProgressCard();
 
 // Data Detective mini-game
 const decisions = { camera: null, contacts: null, location: null, notifications: null };
@@ -267,36 +211,52 @@ function setTheme(mode) {
 const mascot = document.getElementById("mascot");
 const bubble = document.getElementById("mascotBubble");
 
-const fallbackFacts = [
-  "Remember to check your app permissions!",
-  "AI learns from data, including yours.",
-  "Stay curious and question results.",
-  "Take breaks when scrolling for a long time."
+const facts = [
+  "AI doesn't know anything until you ask it a question.",
+  "AI predicts words one by one; it doesn't plan a full sentence in advance.",
+  "AI can write a poem without knowing what a poem feels like.",
+  "AI can sound confident even when it is guessing.",
+  "AI has no memory of yesterday unless it is designed to remember.",
+  "AI does not understand jokes - it recognizes joke patterns.",
+  "AI has never seen the world, only data about it.",
+  "AI does not get bored, tired, or distracted.",
+  "AI does not know what is important unless humans tell it.",
+  "AI can explain things without understanding them.",
+  "AI does not know if something is funny unless people laughed at similar things before.",
+  "AI has no favorite color, song, or movie.",
+  "AI cannot learn from mistakes unless humans retrain it.",
+  "AI can generate ideas faster than humans, but not judge them better.",
+  "AI does not know what common sense is.",
+  "AI can describe emotions without ever feeling them.",
+  "AI does not know who is using it unless information is shared.",
+  "AI cannot tell if something is a good or bad idea by itself.",
+  "AI has no goals of its own.",
+  "AI does not understand time like humans do.",
+  "AI can make mistakes that sound very convincing.",
+  "AI cannot tell if something is real or fake unless trained to.",
+  "AI does not understand consequences.",
+  "AI cannot take responsibility for decisions.",
+  "AI does not know when it is wrong.",
+  "AI has no awareness of the real world.",
+  "AI does not understand rules unless they are written down.",
+  "AI can mix ideas together but cannot invent from nothing.",
+  "AI cannot recognize sarcasm reliably.",
+  "AI does not understand context the way humans do.",
+  "AI can help with homework, but it cannot learn for you.",
+  "AI does not know what privacy is unless programmed to respect it.",
+  "AI cannot verify facts unless it checks sources.",
+  "AI does not understand why something matters to you.",
+  "AI can copy writing styles without knowing the author.",
+  "AI does not know what \"too much\" means.",
+  "AI has no intuition.",
+  "AI does not know what it does not know.",
+  "AI cannot decide what is right or wrong.",
+  "AI does not replace human judgment."
 ];
 
-let facts = null;
-
-const loadFactsOnce = async () => {
-  if (facts) return;
-  try {
-    const res = await fetch("FactsRobot.json");
-    if (!res.ok) throw new Error("FactsRobot load failed");
-    const data = await res.json();
-    if (Array.isArray(data.ai_fun_facts) && data.ai_fun_facts.length) {
-      facts = data.ai_fun_facts;
-      return;
-    }
-  } catch (err) {
-    // Fall back to defaults.
-  }
-  facts = fallbackFacts;
-};
-
-const showRandomFact = async () => {
+const showRandomFact = () => {
   if (!bubble) return;
-  await loadFactsOnce();
-  const pool = facts && facts.length ? facts : fallbackFacts;
-  bubble.textContent = pool[Math.floor(Math.random() * pool.length)];
+  bubble.textContent = facts[Math.floor(Math.random() * facts.length)];
   bubble.classList.add("show");
   setTimeout(() => bubble.classList.remove("show"), 3500);
 };
@@ -349,5 +309,6 @@ document.querySelectorAll(".btn, .card").forEach((el) => {
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Tab") document.body.classList.add("user-is-tabbing");
 });
+
 
 
