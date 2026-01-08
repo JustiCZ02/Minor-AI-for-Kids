@@ -270,40 +270,6 @@ if (mascot && bubble) {
     }
   });
 }
-// Satisfying click sound using Web Audio
-const hoverSoundEnabled = true;
-let audioCtx;
-
-const playHoverSound = () => {
-  if (!hoverSoundEnabled) return;
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-
-  // Klik-achtig geluid (kort, diep, strak)
-  osc.type = "soft click";
-  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(
-    60,
-    audioCtx.currentTime + 0.05
-  );
-
-  gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioCtx.currentTime + 0.06
-  );
-
-  osc.connect(gain).connect(audioCtx.destination);
-  osc.start();
-  osc.stop(audioCtx.currentTime + 0.06);
-};
-
-
-document.querySelectorAll(".btn, .card").forEach((el) => {
-  el.addEventListener("mouseenter", playHoverSound, { once: false });
-});
 
 // Bring focus outlines when using keyboard
 document.body.addEventListener("keydown", (e) => {

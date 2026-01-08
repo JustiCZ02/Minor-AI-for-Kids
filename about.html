@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Data Camp — About</title>
+  <title>AI Data Camp - About & Toolkit</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-light">
@@ -15,8 +15,7 @@
           <li><a href="index.html#home" class="nav__link">Home</a></li>
           <li><a href="deepfake.html#module-1" class="nav__link">Learn Modules</a></li>
           <li><a href="ai-mentor.html" class="nav__link">AI Mentor Chat</a></li>
-          <li><a href="teachers.html" class="nav__link">Teacher Toolkit</a></li>
-          <li><a href="about.html" class="nav__link" aria-current="page">About</a></li>
+          <li><a href="about.html" class="nav__link" aria-current="page">About & Toolkit</a></li>
         </ul>
       </nav>
       <button class="btn btn--ghost nav__toggle" id="themeToggle" aria-label="Toggle light or dark mode">ĐYOz Light</button>
@@ -24,41 +23,84 @@
   </header>
 
   <main>
-    <section class="section section--hero intro">
+    <section class="section section--hero intro about-hero">
       <div class="intro__wrap card animate-on-scroll">
-        <h1 class="hero__title">About AI Data Camp</h1>
-        <p class="hero__subtitle">A student-built prototype to grow AI literacy and digital citizenship.</p>
-        <p class="hero__text">This space is designed for teens 12-15 years old to explore how AI works, where it shows up in their daily apps, and how to stay safe with data. We pair short lessons with quizzes and challenges so learning stays hands-on.</p>
-        <a class="btn btn--primary intro__start" href="deepfake.html#module-1">Start learning</a>
+        <span class="badge">AI Data Camp</span>
+        <h1 class="hero__title">About the Project</h1>
+        <p class="hero__subtitle">A student-built guide to AI literacy for ages 12-15.</p>
+        <p class="hero__text">AI Data Camp helps teens understand how AI shows up in their daily apps, how data trains models, and how to stay safe with privacy. The experience includes short learning modules, an AI Mentor chat, and hands-on practice spotting deepfakes.</p>
+        <div class="teacher-buttons">
+          <a class="btn btn--primary" href="deepfake.html#module-1">Start learning</a>
+          <a class="btn btn--outline" href="teachers.html">Teacher Toolkit</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-content">
+      <div class="about-grid">
+        <div class="card animate-on-scroll">
+          <h2 class="card__title">Who it is for</h2>
+          <ul>
+            <li>Secondary school students (12-15)</li>
+            <li>Teachers who want ready-made AI lessons</li>
+            <li>Parents and families exploring AI together</li>
+          </ul>
+        </div>
+        <div class="card animate-on-scroll">
+          <h2 class="card__title">What students do</h2>
+          <ul>
+            <li>Learn how AI uses data and patterns</li>
+            <li>Discuss privacy, fairness, and trust</li>
+            <li>Practice spotting deepfake clues</li>
+            <li>Debate good and risky AI uses</li>
+          </ul>
+        </div>
+        <div class="card animate-on-scroll">
+          <h2 class="card__title">Skills they build</h2>
+          <ul>
+            <li>Critical thinking and media literacy</li>
+            <li>Safer data habits and permission choices</li>
+            <li>Clear questions and healthy skepticism</li>
+            <li>Team discussion and reflection</li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="section__header">
-        <h2>Who is this for?</h2>
-        <p>AI Data Camp is built for classrooms, families, and curious students.</p>
+        <h2>Toolkit downloads</h2>
+        <p>Grab classroom-ready PDFs to run a lesson in one period.</p>
       </div>
-      <div class="card animate-on-scroll">
-        <ul>
-          <li>Secondary school students (12-15)</li>
-          <li>Teachers and schools</li>
-          <li>Parents who want to talk about AI with their children</li>
-        </ul>
+      <div class="module-grid">
+        <article class="card animate-on-scroll">
+          <h3 class="card__title">Lesson Plan</h3>
+          <p>A structured 60-minute flow with goals, timing, and activity steps.</p>
+          <a class="btn btn--outline download-btn" href="Lesson%20Plan.pdf" download>Download Lesson Plan</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3 class="card__title">Student Worksheet</h3>
+          <p>Guided notes and reflection questions for independent or group work.</p>
+          <a class="btn btn--outline download-btn" href="Student%20Worksheet.pdf" download>Download Worksheet</a>
+        </article>
+        <article class="card animate-on-scroll">
+          <h3 class="card__title">Discussion Questions</h3>
+          <p>Prompts for class conversations about AI, trust, and privacy.</p>
+          <a class="btn btn--outline download-btn" href="Discussion%20Questions.pdf" download>Download Questions</a>
+        </article>
       </div>
     </section>
 
     <section class="section">
       <div class="section__header">
-        <h2>What you can learn</h2>
-        <p>Core topics covered across the modules, quizzes, and challenges.</p>
+        <h2>How it fits in class</h2>
+        <p>Mix the activities to match your time and class level.</p>
       </div>
       <div class="card animate-on-scroll">
         <ul>
-          <li>What AI is and where you see it</li>
-          <li>How data trains AI models</li>
-          <li>Why privacy matters</li>
-          <li>Ways to stay safe and think critically</li>
-          <li>How AI shapes feeds, filters, and games</li>
+          <li>Use the modules as a shared screen or on student devices.</li>
+          <li>Run the AI Mentor chat as a whole-class discussion.</li>
+          <li>Finish with the deepfake practice to build smart skepticism.</li>
         </ul>
       </div>
     </section>
@@ -68,17 +110,20 @@
     Made with curiosity for young AI explorers. Keep learning and stay kind online.
   </footer>
 
-  <button id="backToTop" class="btn btn--circle" aria-label="Back to top">ƒÅ'<span class="sr-only">Back to top</span></button>
+  <button id="backToTop" class="btn btn--circle" aria-label="Back to top"><svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20L20 4L36 20" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only">Back to top</span></button>
 
   <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
-    <div class="mascot__face">ĐYÏ-</div>
+    <div class="mascot__face">&#129302;</div>
     <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
   </div>
-
-  <audio id="hoverSound" class="sr-only">
-    <source src="" type="audio/wav">
-  </audio>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+

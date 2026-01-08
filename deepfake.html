@@ -13,8 +13,7 @@
       <a href="index.html">Home</a>
       <a href="deepfake.html" class="is-active">Deepfake</a>
       <a href="ai-mentor.html">AI Mentor</a>
-      <a href="teachers.html">Teacher Toolkit</a>
-      <a href="about.html">About</a>
+      <a href="about.html">About & Toolkit</a>
       <a href="privacy.html">Privacy</a>
     </nav>
     <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle theme">
@@ -382,12 +381,16 @@
   <button id="backToTop" class="btn btn-circle back-to-top" aria-label="Back to top">
     ↑
   </button>
-
-  <button id="mascot" class="mascot" aria-label="Mascot tip">
-    <span class="mascot__icon">🤖</span>
-    <span id="mascotBubble" class="mascot__bubble" aria-live="polite"></span>
-  </button>
+  
+  <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
+    <div class="mascot__face">&#129302;</div>
+    <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
+
+
+
+

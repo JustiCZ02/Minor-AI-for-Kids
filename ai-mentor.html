@@ -15,8 +15,7 @@
           <li><a href="index.html#home" class="nav__link">Home</a></li>
           <li><a href="deepfake.html#module-1" class="nav__link">Learn Modules</a></li>
           <li><a href="ai-mentor.html" class="nav__link" aria-current="page">AI Mentor Chat</a></li>
-          <li><a href="teachers.html" class="nav__link">Teacher Toolkit</a></li>
-          <li><a href="about.html" class="nav__link">About</a></li>
+          <li><a href="about.html" class="nav__link">About & Toolkit</a></li>
         </ul>
       </nav>
       <button class="btn btn--ghost nav__toggle" id="themeToggle" aria-label="Toggle light or dark mode">ĐYOz Light</button>
@@ -24,18 +23,28 @@
   </header>
 
   <main>
-    <section class="section section--hero intro">
+    <section class="section section--hero intro" id="mentorIntro">
       <div class="intro__wrap card animate-on-scroll">
         <h1 class="hero__title">AI Mentor Chat</h1>
         <p class="hero__text">Chat with the AI mentor, read the replies, and pick the best response. See what AI misses and when you need to double-check.</p>
         <div class="pill pill--muted">7 scenarios + 1 final question</div>
+        <div class="section__header">
+          <h2>Quiz overview</h2>
+          <p>Read each AI reply and choose the best response. You can try twice per question.</p>
+        </div>
+        <ul class="mentor-list">
+          <li>7 scenarios + 1 final question</li>
+          <li>Earn points for first-try answers</li>
+          <li>Explanations after every question</li>
+        </ul>
+        <button class="btn btn--primary intro__start" id="startMentorQuiz">Start quiz</button>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section app-hidden" id="chatSection">
       <div class="chat-shell">
         <div class="chat-shell__header">
-          <div class="chat-shell__avatar" aria-hidden="true">🤖</div>
+          <div class="chat-shell__avatar" aria-hidden="true">&#129302;</div>
           <div class="chat-shell__info">
             <div class="chat-shell__name">AI Mentor</div>
             <div class="chat-shell__status" id="chatStatus">online</div>
@@ -58,16 +67,12 @@
     Made with curiosity for young AI explorers. Keep learning and stay kind online.
   </footer>
 
-  <button id="backToTop" class="btn btn--circle" aria-label="Back to top">↑<span class="sr-only">Back to top</span></button>
+  <button id="backToTop" class="btn btn--circle" aria-label="Back to top"><svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20L20 4L36 20" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only">Back to top</span></button>
 
   <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
-    <div class="mascot__face">🤖</div>
+    <div class="mascot__face">&#129302;</div>
     <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
   </div>
-
-  <audio id="hoverSound" class="sr-only">
-    <source src="" type="audio/wav">
-  </audio>
 
   <script src="script.js"></script>
   <script>
@@ -215,6 +220,9 @@
     const chatPrompt = document.getElementById("chatPrompt");
     const chatMeta = document.getElementById("chatMeta");
     const chatStatus = document.getElementById("chatStatus");
+    const startMentorQuiz = document.getElementById("startMentorQuiz");
+    const mentorIntro = document.getElementById("mentorIntro");
+    const chatSection = document.getElementById("chatSection");
 
     const totalQuestions = chatData.module.scenarios.length + 1;
     let currentIndex = 0;
@@ -225,12 +233,25 @@
 
     const updateMeta = () => {
       if (mode === "scenario") {
-        chatMeta.textContent = `Scenario ${currentIndex + 1}/${chatData.module.scenarios.length}`;
+        const topic = chatData.module.scenarios[currentIndex].topic;
+        chatMeta.textContent = `${topic} • Scenario ${currentIndex + 1}/${chatData.module.scenarios.length}`;
       } else if (mode === "final") {
         chatMeta.textContent = "Final question";
       } else {
         chatMeta.textContent = "Summary";
       }
+    };
+
+    const typeText = (el, text, speed = 18) => {
+      let idx = 0;
+      const tick = () => {
+        if (idx >= text.length) return;
+        el.textContent += text[idx];
+        idx += 1;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        setTimeout(tick, speed);
+      };
+      tick();
     };
 
     const addMessage = (text, sender, meta) => {
@@ -243,10 +264,14 @@
         wrap.appendChild(metaEl);
       }
       const p = document.createElement("p");
-      p.textContent = text;
       wrap.appendChild(p);
       chatWindow.appendChild(wrap);
       chatWindow.scrollTop = chatWindow.scrollHeight;
+      if (sender === "bot") {
+        typeText(p, text);
+      } else {
+        p.textContent = text;
+      }
     };
 
     const finalizeQuestion = (explanationText, correctOptionText, pointsEarned) => {
@@ -392,7 +417,20 @@
       }
     });
 
-    showScenario();
+    if (startMentorQuiz && mentorIntro && chatSection) {
+      startMentorQuiz.addEventListener("click", () => {
+        mentorIntro.classList.add("app-hidden");
+        chatSection.classList.remove("app-hidden");
+        showScenario();
+        chatSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    } else {
+      showScenario();
+    }
   </script>
 </body>
 </html>
+
+
+
+
