@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Data Camp — AI Mentor Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-light">
+  <header class="nav">
+    <div class="nav__inner">
+      <div class="nav__brand">AI Data Camp</div>
+      <nav aria-label="Main navigation">
+        <ul class="nav__links">
+          <li><a href="index.html#home" class="nav__link">Home</a></li>
+          <li><a href="deepfake.html#module-1" class="nav__link">Learn Modules</a></li>
+          <li><a href="quizzes.html" class="nav__link">Quizzes & Challenges</a></li>
+          <li><a href="ai-mentor.html" class="nav__link" aria-current="page">AI Mentor Chat</a></li>
+          <li><a href="teachers.html" class="nav__link">Teacher Toolkit</a></li>
+          <li><a href="about.html" class="nav__link">About</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn--ghost nav__toggle" id="themeToggle" aria-label="Toggle light or dark mode">ĐYOz Light</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section--hero intro">
+      <div class="intro__wrap card animate-on-scroll">
+        <h1 class="hero__title">AI Mentor Chat</h1>
+        <p class="hero__text">Chat with the AI mentor, read the replies, and pick the best response. See what AI misses and when you need to double-check.</p>
+        <div class="pill pill--muted">7 scenarios + 1 final question</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="chat-shell">
+        <div class="chat-shell__header">
+          <div class="chat-shell__avatar" aria-hidden="true">🤖</div>
+          <div class="chat-shell__info">
+            <div class="chat-shell__name">AI Mentor</div>
+            <div class="chat-shell__status" id="chatStatus">online</div>
+          </div>
+          <div class="chat-shell__meta" id="chatMeta">Scenario 1/7</div>
+        </div>
+
+        <div class="chat-window" id="chatWindow" aria-live="polite"></div>
+
+        <div class="chat-footer">
+          <div class="chat-footer__prompt" id="chatPrompt">Choose an answer to check the AI.</div>
+          <div class="quick-replies" id="optionsBox" role="listbox" aria-label="Answer options"></div>
+          <button class="btn btn--primary chat-next" id="nextBtn" disabled>Next scenario</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Made with curiosity for young AI explorers. Keep learning and stay kind online.
+  </footer>
+
+  <button id="backToTop" class="btn btn--circle" aria-label="Back to top">↑<span class="sr-only">Back to top</span></button>
+
+  <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
+    <div class="mascot__face">🤖</div>
+    <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
+  </div>
+
+  <audio id="hoverSound" class="sr-only">
+    <source src="" type="audio/wav">
+  </audio>
+
+  <script src="script.js"></script>
+  <script>
+    const chatData = {
+  "module": {
+    "id": "ai-mentor-critical-use",
+    "title": "Talk to an AI mentor (and learn what it cannot do)",
+    "description": "This module helps students understand when AI is useful and when human thinking is still needed.",
+    "scenarios": [
+      {
+        "id": 1,
+        "topic": "Understanding homework",
+        "question": "Can you explain how I should solve this type of homework question?",
+        "ai_answer": "I can explain the general steps that are usually used to solve this type of question. You can follow those steps and try them yourself. However, you should always check whether the method fits your specific assignment.",
+        "reflection": {
+          "question": "What is most important to remember when using AI for homework?",
+          "options": [
+            "AI replaces the need to study",
+            "You still need to understand the solution yourself",
+            "AI explanations are always correct",
+            "AI works the same for every subject"
+          ],
+          "correct_answer": 1
+        },
+        "explanation": "AI can explain steps, but learning only happens if you understand and apply them yourself."
+      },
+      {
+        "id": 2,
+        "topic": "Searching for information",
+        "question": "I am working on a school project. Can I use information from AI?",
+        "ai_answer": "AI can help give an overview of a topic, but the information should be checked using reliable sources such as school books or trusted websites.",
+        "reflection": {
+          "question": "What is the biggest limitation of AI here?",
+          "options": [
+            "It refuses to help with schoolwork",
+            "It does not show where the information comes from",
+            "It only works with images",
+            "It only gives opinions"
+          ],
+          "correct_answer": 3
+        },
+        "explanation": "Without clear sources, information cannot be trusted without verification."
+      },
+      {
+        "id": 3,
+        "topic": "Writing social media text",
+        "question": "Can you write a short text for a social media post?",
+        "ai_answer": "I can generate a text that follows common trends and popular writing styles, but it may sound generic or similar to posts from others.",
+        "reflection": {
+          "question": "What is a realistic downside of AI-generated posts?",
+          "options": [
+            "They are always incorrect",
+            "They break social media rules",
+            "They often sound less personal",
+            "They cannot be posted online"
+          ],
+          "correct_answer": 2
+        },
+        "explanation": "AI is good for inspiration, but personal style still matters."
+      },
+      {
+        "id": 4,
+        "topic": "Making a schedule",
+        "question": "Can you create a daily schedule for me?",
+        "ai_answer": "I can suggest a general schedule based on time management ideas, but it may not perfectly fit your day or unexpected changes.",
+        "reflection": {
+          "question": "Why might this schedule not work perfectly?",
+          "options": [
+            "AI ignores time completely",
+            "AI only works for adults",
+            "AI cannot predict changes in your day",
+            "AI refuses to make schedules"
+          ],
+          "correct_answer": 2
+        },
+        "explanation": "Schedules made by AI often need human adjustment."
+      },
+      {
+        "id": 5,
+        "topic": "Checking facts",
+        "question": "I read something online. Can you tell me if it is true?",
+        "ai_answer": "I can say whether the information sounds likely based on patterns, but I cannot guarantee it is true without reliable sources.",
+        "reflection": {
+          "question": "What is the main weakness of this answer?",
+          "options": [
+            "It deletes information",
+            "It relies on likelihood, not proof",
+            "It refuses to answer",
+            "It only uses emotions",
+          ],
+          "correct_answer": 3
+        },
+        "explanation": "Something that sounds logical is not always true."
+      },
+      {
+        "id": 6,
+        "topic": "Helping with decisions",
+        "question": "What is the best option in this situation?",
+        "ai_answer": "I can suggest an option that often works in similar situations, but I do not know all the details or consequences of your choice.",
+        "reflection": {
+          "question": "What can AI not do in this situation?",
+          "options": [
+            "Summarize information",
+            "Take responsibility for the outcome",
+            "Explain general advantages",
+            "List possible options"
+          ],
+          "correct_answer": 1
+        },
+        "explanation": "Only humans are responsible for decisions and their consequences."
+      },
+      {
+        "id": 7,
+        "topic": "Responsible AI use",
+        "question": "When is AI most useful?",
+        "ai_answer": "AI is useful for explanations, generating ideas, organizing information, and saving time when used as a support tool.",
+        "reflection": {
+          "question": "When should you be most careful using AI?",
+          "options": [
+            "When brainstorming ideas",
+            "When organizing notes",
+            "When asking simple questions",
+            "When making important decisions"
+          ],
+          "correct_answer": 3
+        },
+        "explanation": "AI should support thinking, not replace judgment."
+      }
+    ],
+    "final_question": {
+      "question": "What is the best way to use AI?",
+      "options": [
+        "Avoid AI completely",
+        "Use AI as a tool and think critically",
+        "Let AI decide for you"
+      ],
+      "correct_answer": 1
+    }
+  }
+};
+
+    const chatWindow = document.getElementById("chatWindow");
+    const optionsBox = document.getElementById("optionsBox");
+    const nextBtn = document.getElementById("nextBtn");
+    const chatPrompt = document.getElementById("chatPrompt");
+    const chatMeta = document.getElementById("chatMeta");
+    const chatStatus = document.getElementById("chatStatus");
+
+    const totalQuestions = chatData.module.scenarios.length + 1;
+    let currentIndex = 0;
+    let mode = "scenario"; // scenario | final | done
+    let answered = false;
+    let score = 0;
+    let attempts = 0;
+
+    const updateMeta = () => {
+      if (mode === "scenario") {
+        chatMeta.textContent = `Scenario ${currentIndex + 1}/${chatData.module.scenarios.length}`;
+      } else if (mode === "final") {
+        chatMeta.textContent = "Final question";
+      } else {
+        chatMeta.textContent = "Summary";
+      }
+    };
+
+    const addMessage = (text, sender, meta) => {
+      const wrap = document.createElement("div");
+      wrap.className = `bubble bubble--${sender}`;
+      if (meta) {
+        const metaEl = document.createElement("div");
+        metaEl.className = "bubble__meta";
+        metaEl.textContent = meta;
+        wrap.appendChild(metaEl);
+      }
+      const p = document.createElement("p");
+      p.textContent = text;
+      wrap.appendChild(p);
+      chatWindow.appendChild(wrap);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    };
+
+    const finalizeQuestion = (explanationText, correctOptionText, pointsEarned) => {
+      answered = true;
+      const scoreNote = pointsEarned ? ` (+${pointsEarned} point${pointsEarned === 1 ? "" : "s"})` : "";
+      if (explanationText) addMessage(explanationText.trim(), "bot", "AI Mentor");
+      if (scoreNote) addMessage(scoreNote.trim(), "bot", "AI Mentor");
+      chatPrompt.textContent = "Answer processed. Click next.";
+      if (mode === "scenario") {
+        nextBtn.textContent = currentIndex === chatData.module.scenarios.length - 1
+          ? "Go to final question"
+          : "Next scenario";
+      } else if (mode === "final") {
+        nextBtn.textContent = "See results";
+      }
+      nextBtn.disabled = false;
+    };
+
+    const renderOptions = (options, correctAnswer, explanationText) => {
+      optionsBox.innerHTML = "";
+      attempts = 0;
+      options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "quick-reply";
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.addEventListener("click", () => {
+          if (answered) return;
+          attempts += 1;
+          addMessage(opt, "user", "You");
+          const isCorrect = idx === correctAnswer;
+
+          if (isCorrect) {
+            const pointsEarned = attempts === 1 ? 1 : 0.5;
+            score += pointsEarned;
+            const feedback = attempts === 1 ? "Correct! Sharp thinking." : "Nice! Got it on your second try.";
+            addMessage(feedback, "bot", "AI Mentor");
+            finalizeQuestion(explanationText, options[correctAnswer], pointsEarned);
+            return;
+          }
+
+          // Wrong answer flow: allow a second try
+          if (attempts === 1) {
+            addMessage("Almost. Try again.", "bot", "AI Mentor");
+            btn.disabled = true;
+            btn.classList.add("is-disabled");
+            return;
+          }
+
+          // Second wrong attempt: reveal and move on with no points
+          const correctText = options[correctAnswer];
+          addMessage(`Not quite. The correct answer is: "${correctText}".`, "bot", "AI Mentor");
+          finalizeQuestion(explanationText, correctText, 0);
+        });
+        optionsBox.appendChild(btn);
+      });
+    };
+
+    const showScenario = () => {
+      const scenario = chatData.module.scenarios[currentIndex];
+      answered = false;
+      attempts = 0;
+      nextBtn.disabled = true;
+      nextBtn.textContent = "Next scenario";
+      chatPrompt.textContent = "Read the AI reply and choose your response.";
+      chatWindow.innerHTML = "";
+      updateMeta();
+      chatStatus.textContent = "typing...";
+
+      addMessage(scenario.question, "user", `You • ${scenario.topic}`);
+      setTimeout(() => {
+        addMessage(scenario.ai_answer, "bot", "AI Mentor");
+      }, 350);
+      setTimeout(() => {
+        chatStatus.textContent = "online";
+        addMessage(scenario.reflection.question, "bot", "AI Mentor • Check");
+        renderOptions(
+          scenario.reflection.options,
+          scenario.reflection.correct_answer,
+          scenario.explanation
+        );
+      }, 700);
+    };
+
+    const showFinalQuestion = () => {
+      mode = "final";
+      answered = false;
+      attempts = 0;
+      nextBtn.disabled = true;
+      chatWindow.innerHTML = "";
+      chatPrompt.textContent = "Final question: choose the best way to use AI.";
+      updateMeta();
+      chatStatus.textContent = "typing...";
+
+      const finalQ = chatData.module.final_question;
+      addMessage("Last round! What is the best way to use AI?", "bot", "AI Mentor");
+      setTimeout(() => {
+        chatStatus.textContent = "online";
+        addMessage(finalQ.question, "bot", "AI Mentor • Final question");
+        renderOptions(finalQ.options, finalQ.correct_answer, "AI is a helper, not the decision-maker.");
+      }, 500);
+    };
+
+    const showSummary = () => {
+      mode = "done";
+      chatWindow.innerHTML = "";
+      chatStatus.textContent = "online";
+      chatPrompt.textContent = "Finished! Want to play again?";
+      updateMeta();
+      const resultText = `Score: ${score}/${totalQuestions}.`;
+      const tip = score === totalQuestions
+        ? "Great! You are checking AI critically."
+        : score >= totalQuestions - 2
+          ? "Nice work. Keep checking sources."
+          : "Keep practicing: always ask for evidence and context.";
+      addMessage("Well done, that was all the questions.", "bot", "AI Mentor");
+      addMessage(`${resultText} ${tip}`, "bot", "AI Mentor");
+      nextBtn.textContent = "Play again";
+      nextBtn.disabled = false;
+    };
+
+    nextBtn.addEventListener("click", () => {
+      if (mode === "done") {
+        currentIndex = 0;
+        score = 0;
+        mode = "scenario";
+        showScenario();
+        return;
+      }
+
+      if (mode === "scenario") {
+        currentIndex += 1;
+        if (currentIndex >= chatData.module.scenarios.length) {
+          showFinalQuestion();
+        } else {
+          showScenario();
+        }
+        return;
+      }
+
+      if (mode === "final") {
+        showSummary();
+      }
+    });
+
+    showScenario();
+  </script>
+</body>
+</html>

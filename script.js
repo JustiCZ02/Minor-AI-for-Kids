@@ -263,30 +263,53 @@ function setTheme(mode) {
   themeToggle.textContent = mode === "dark" ? "🌙 Dark" : "🌞 Light";
 }
 
-// Mascot tips
+// Mascot facts
 const mascot = document.getElementById("mascot");
 const bubble = document.getElementById("mascotBubble");
-const tips = [
+
+const fallbackFacts = [
   "Remember to check your app permissions!",
-  "AI learns from data — including yours.",
+  "AI learns from data, including yours.",
   "Stay curious and question results.",
   "Take breaks when scrolling for a long time."
 ];
 
-const showRandomTip = () => {
-  bubble.textContent = tips[Math.floor(Math.random() * tips.length)];
+let facts = null;
+
+const loadFactsOnce = async () => {
+  if (facts) return;
+  try {
+    const res = await fetch("FactsRobot.json");
+    if (!res.ok) throw new Error("FactsRobot load failed");
+    const data = await res.json();
+    if (Array.isArray(data.ai_fun_facts) && data.ai_fun_facts.length) {
+      facts = data.ai_fun_facts;
+      return;
+    }
+  } catch (err) {
+    // Fall back to defaults.
+  }
+  facts = fallbackFacts;
+};
+
+const showRandomFact = async () => {
+  if (!bubble) return;
+  await loadFactsOnce();
+  const pool = facts && facts.length ? facts : fallbackFacts;
+  bubble.textContent = pool[Math.floor(Math.random() * pool.length)];
   bubble.classList.add("show");
   setTimeout(() => bubble.classList.remove("show"), 3500);
 };
 
-mascot.addEventListener("click", showRandomTip);
-mascot.addEventListener("keypress", (e) => {
-  if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    showRandomTip();
-  }
-});
-
+if (mascot && bubble) {
+  mascot.addEventListener("click", showRandomFact);
+  mascot.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      showRandomFact();
+    }
+  });
+}
 // Satisfying click sound using Web Audio
 const hoverSoundEnabled = true;
 let audioCtx;
@@ -326,3 +349,5 @@ document.querySelectorAll(".btn, .card").forEach((el) => {
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Tab") document.body.classList.add("user-is-tabbing");
 });
+
+
