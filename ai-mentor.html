@@ -55,6 +55,19 @@
         <div class="chat-window" id="chatWindow" aria-live="polite"></div>
 
         <div class="chat-footer">
+          <div class="quick-replies" id="jumpControls" aria-label="Temporary jump controls">
+            <select id="jumpSelect" class="quick-reply">
+              <option value="0">Jump to: Scenario 1</option>
+              <option value="1">Scenario 2</option>
+              <option value="2">Scenario 3</option>
+              <option value="3">Scenario 4</option>
+              <option value="4">Scenario 5</option>
+              <option value="5">Scenario 6</option>
+              <option value="6">Scenario 7</option>
+              <option value="final">Final question</option>
+            </select>
+            <button class="quick-reply" id="jumpBtn" type="button">Go</button>
+          </div>
           <div class="chat-footer__prompt" id="chatPrompt">Choose an answer to check the AI.</div>
           <div class="quick-replies" id="optionsBox" role="listbox" aria-label="Answer options"></div>
           <button class="btn btn--primary chat-next" id="nextBtn" disabled>Next scenario</button>
@@ -223,6 +236,8 @@
     const startMentorQuiz = document.getElementById("startMentorQuiz");
     const mentorIntro = document.getElementById("mentorIntro");
     const chatSection = document.getElementById("chatSection");
+    const jumpSelect = document.getElementById("jumpSelect");
+    const jumpBtn = document.getElementById("jumpBtn");
 
     const totalQuestions = chatData.module.scenarios.length + 1;
     let currentIndex = 0;
@@ -242,17 +257,22 @@
       }
     };
 
-    const typeText = (el, text, speed = 18) => {
+    const typeText = (el, text, speed = 18) => new Promise((resolve) => {
       let idx = 0;
       const tick = () => {
-        if (idx >= text.length) return;
+        if (idx >= text.length) {
+          resolve();
+          return;
+        }
         el.textContent += text[idx];
         idx += 1;
         chatWindow.scrollTop = chatWindow.scrollHeight;
         setTimeout(tick, speed);
       };
       tick();
-    };
+    });
+
+    let typingQueue = Promise.resolve();
 
     const addMessage = (text, sender, meta) => {
       const wrap = document.createElement("div");
@@ -268,7 +288,8 @@
       chatWindow.appendChild(wrap);
       chatWindow.scrollTop = chatWindow.scrollHeight;
       if (sender === "bot") {
-        typeText(p, text);
+        typingQueue = typingQueue.then(() => typeText(p, text));
+        return typingQueue;
       } else {
         p.textContent = text;
       }
@@ -378,6 +399,7 @@
     const showSummary = () => {
       mode = "done";
       chatWindow.innerHTML = "";
+      optionsBox.innerHTML = "";
       chatStatus.textContent = "online";
       chatPrompt.textContent = "Finished! Want to play again?";
       updateMeta();
@@ -416,6 +438,26 @@
         showSummary();
       }
     });
+
+    const jumpTo = (target) => {
+      optionsBox.innerHTML = "";
+      answered = false;
+      attempts = 0;
+      if (target === "final") {
+        currentIndex = chatData.module.scenarios.length;
+        showFinalQuestion();
+        return;
+      }
+      const idx = Number(target);
+      if (Number.isNaN(idx)) return;
+      currentIndex = Math.max(0, Math.min(idx, chatData.module.scenarios.length - 1));
+      mode = "scenario";
+      showScenario();
+    };
+
+    if (jumpSelect && jumpBtn) {
+      jumpBtn.addEventListener("click", () => jumpTo(jumpSelect.value));
+    }
 
     if (startMentorQuiz && mentorIntro && chatSection) {
       startMentorQuiz.addEventListener("click", () => {

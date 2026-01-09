@@ -275,6 +275,3 @@ if (mascot && bubble) {
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Tab") document.body.classList.add("user-is-tabbing");
 });
-
-
-
