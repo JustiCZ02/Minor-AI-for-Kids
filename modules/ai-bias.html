@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Data Camp - Bias in AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="theme-light">
+  <header class="site-header">
+    <div class="header__brand">AI Data Camp</div>
+    <nav class="header__nav">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Modules</a>
+      <a href="deepfake.html">Deepfake</a>
+      <a href="ai-basics.html">What is AI^</a>
+      <a href="ai-bias.html" class="is-active">Bias</a>
+      <a href="ai-safety.html">Safe Use</a>
+      <a href="../ai-mentor.html">AI Mentor</a>
+    </nav>
+    <button id="themeToggle" class="btn btn--ghost" aria-label="Toggle theme">Light</button>
+  </header>
+
+  <main class="page page--modules">
+    <div class="page__intro">
+      <h1>Bias in AI</h1>
+      <p>AI is not automatically fair. It can reflect the data, goals, and decisions of the people who build it.</p>
+    </div>
+
+    <div class="module-mode-switch">
+      <span class="module-mode-label">Show modules:</span>
+      <button class="btn btn--outline is-active" data-module-mode="sequence">Step by step</button>
+      <button class="btn btn--outline" data-module-mode="all">All at once</button>
+    </div>
+
+    <section id="module-1" class="module animate-on-scroll">
+      <h2 class="module__title">Bias in AI: the big idea</h2>
+      <div class="module__body">
+        <p>Have you ever thought of an AI as a perfectly fair, robot judge that always makes the right choice^ It's a common mistake.</p>
+        <p>In reality, AI systems are socio-technical systems, which means they are not neutral tools; they reflect the goals, values, and even the hidden opinions of the humans who build them.</p>
+        <p>To understand why AI isn't always objective, we can look at three main areas: training data, design choices and diversity.</p>
+      </div>
+      <a href="#module-2" class="btn btn--primary module__next">Next module</a>
+    </section>
+
+    <section id="module-2" class="module animate-on-scroll">
+      <h2 class="module__title">1) Training data: "learning by example"</h2>
+      <div class="module__body">
+        <p>Most AI uses supervised machine learning, where it learns how to make decisions by looking at thousands of examples called training data.</p>
+        <p>If this data is biased or incomplete, the AI will learn those same mistakes.</p>
+        <p><b>Representation bias:</b> If a "cat-dog classifier" is trained on 100 pictures of cats but only 5 pictures of dogs, it will be much better at identifying cats and might wrongly guess that a dog is a cat.</p>
+        <p><b>Historical bias:</b> AI often learns from data that reflects past real-world prejudices. For example, a famous Amazon hiring tool was found to be biased against women because it was trained on resumes from a decade when most tech jobs were held by men.</p>
+        <p><b>The "teenager" problem:</b> A study by the University of Washington found that AI models often have negative associations with teenagers, because the models were trained on negative news headlines rather than actual teen experiences.</p>
+      </div>
+      <a href="#module-3" class="btn btn--primary module__next">Next module</a>
+    </section>
+
+    <section id="module-3" class="module animate-on-scroll">
+      <h2 class="module__title">2) Design choices: what is the goal^</h2>
+      <div class="module__body">
+        <p>AI doesn't just "think" on its own; humans decide what the AI is optimizing for.</p>
+        <p>Optimization is the true goal the programmer sets for the system.</p>
+        <p><b>Profit vs. people:</b> An app like YouTube is advertised as a way to entertain you, but its algorithm is optimized to make a profit by keeping you watching as long as possible so you see more ads.</p>
+        <p><b>Ranking bias:</b> Search engines often put certain results at the top. Users are trained to believe the top results are the best, even if they are just the most popular or the ones that make the company more money.</p>
+      </div>
+      <a href="#module-4" class="btn btn--primary module__next">Next module</a>
+    </section>
+
+    <section id="module-4" class="module animate-on-scroll">
+      <h2 class="module__title">3) Diversity: who is in the room^</h2>
+      <div class="module__body">
+        <p>The outcomes of AI are heavily influenced by who builds the technology.</p>
+        <p>Currently, there is a "diversity crisis" in AI, with women making up only about 12% of machine learning engineers.</p>
+        <p><b>The "invisible" face:</b> Computer scientist Joy Buolamwini discovered that facial detection software could not even "see" her dark-skinned face until she put on a white mask.</p>
+        <p>Her "Gender Shades" study later proved that these systems were much more accurate for light-skinned men than for dark-skinned women because the people building the systems didn't include enough diverse faces in the training data.</p>
+        <p><b>Automation bias:</b> People often trust AI more than they trust human experts because they assume a computer is always objective. This is dangerous when biased systems are used to make big decisions, like who gets a loan or who goes to jail.</p>
+      </div>
+      <a href="#module-5" class="btn btn--primary module__next">Next module</a>
+    </section>
+
+    <section id="module-5" class="module animate-on-scroll">
+      <h2 class="module__title">Your online "bubble"</h2>
+      <div class="module__body">
+        <p>For teens, the most common experience with AI bias is the filter bubble.</p>
+        <p>This is "algorithmically curated isolation" where an AI only shows you content that matches what you already believe.</p>
+        <p>This can create an echo chamber, where you never hear different opinions, making the world seem more divided than it actually is.</p>
+        <p><b>The sandwich analogy:</b> Building an AI is like writing a recipe for a sandwich. If the chef only asks people who hate pickles what belongs in the "Best Sandwich," the recipe will never include pickles.</p>
+        <p>The recipe isn't neutral - it's just following the narrow instructions and limited ingredients it was given. To make a sandwich that everyone enjoys, you need a diverse group of chefs and a wide variety of ingredients.</p>
+      </div>
+      <a href="ai-safety.html#module-1" class="btn btn--primary module__next">Go to next topic page</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>AI Data Camp &copy; 2025</p>
+  </footer>
+
+  <button id="backToTop" class="btn btn--circle back-to-top" aria-label="Back to top">
+    <span aria-hidden="true">^</span>
+  </button>
+
+  <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
+    <div class="mascot__face">&#129302;</div>
+    <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
+

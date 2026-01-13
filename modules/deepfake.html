@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Data Camp ? Deepfake</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="theme-light">
+  <header class="site-header">
+    <div class="header__brand">AI Data Camp</div>
+    <nav class="header__nav">
+      <a href="../index.html">Home</a>
+      <a href="index.html">Modules</a>
+      <a href="deepfake.html" class="is-active">Deepfake</a>
+      <a href="ai-basics.html">What is AI^</a>
+      <a href="ai-bias.html">Bias</a>
+      <a href="ai-safety.html">Safe Use</a>
+      <a href="../ai-mentor.html">AI Mentor</a>
+      <a href="../about.html">About &amp; Toolkit</a>
+      <a href="../sources.html">Sources</a>
+    </nav>
+<button id="themeToggle" class="btn btn--ghost" aria-label="Toggle theme">Light</button>
+  </header>
+
+  <main class="page page--modules">
+    <div class="page__intro">
+      <h1>Deepfake ? Information &amp; Practice</h1>
+      <p>
+        On this page students learn what deepfakes are and practice spotting the
+        difference between fake and real images.
+      </p>
+    </div>
+
+    <div class="module-mode-switch">
+      <span class="module-mode-label">Show modules:</span>
+      <button class="btn btn--outline is-active" data-module-mode="sequence">Step by step</button>
+      <button class="btn btn--outline" data-module-mode="all">All at once</button>
+    </div>
+
+    <section id="module-1" class="module animate-on-scroll">
+      <h2 class="module__title">What is a deepfake^</h2>
+      <div class="module__body">
+        <p>
+          Deepfakes are a kind of fake media made by computers. They can be 
+          videos, photos or sound clips that look and sound like a real person. 
+          Unlike simple photo editing, deepfakes use artificial intelligence to 
+          copy someone?s face, voice and mannerisms so well that it?s hard for 
+          people to tell if they are real.(unesco.org) Experts warn that the growing 
+          number of deepfakes is making it harder to know what is true online.(unesco.org)
+        </p>
+      </div>
+      <a href="#module-2" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+
+    <section id="module-2" class="module animate-on-scroll">
+      <h2 class="module__title">What Are Deepfakes^</h2>
+      <div class="module__body">
+        <p>
+          Deepfakes are realistic fakes created by algorithms (computer instructions) 
+          that change or generate pictures, voices or videos to make it seem like someone 
+          did something they never did. These systems learn to copy a person?s facial 
+          expressions or voice patterns. For example, voicecloning tools can reproduce 
+          someone?s voice from just a few seconds of recorded audio(pindrop.com). 
+          Deepfakes have become more common because of new advances in generative AI and 
+          texttospeech software(pindrop.com). 
+        </p>
+      </div>
+      <a href="#module-3" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+    <section id="module-3" class="module animate-on-scroll">
+      <h2 class="module__title">How Deepfakes Are Made</h2>
+      <div class="module__body">
+        <p>
+          Collecting data: People who make deepfakes gather videos or recordings of the 
+          target person from interviews, podcasts or social media(pindrop.com). Even short 
+          clips can be enough to train a model(pindrop.com). 
+        </p>
+        <p>
+          Training the model: A deeplearning algorithm studies those clips to learn the 
+          target?s face or voice. Techniques like generative adversarial networks (GANs), 
+          diffusion models and advanced texttospeech systems are used(deepstrike.io). 
+        </p>
+        <p>
+          Creating the deepfake: The model then makes new audio or video that matches 
+          the target?s appearance or voice. Voicecloning software can mimic someone?s 
+          tone and rhythm(pindrop.com). Video deepfakes swap the target?s face onto an 
+          actor?s body frame by frame(mxdusa.org).
+        </p>
+        <p>
+          Finishing touches: To hide obvious signs, creators adjust lighting, lip movements 
+          and small details to make the fake look more realistic(pindrop.com). 
+        </p>
+        <p>
+          Because computers learn quickly, deepfakes can now be made in minutes, and realistic voice clones need only 20?30 seconds of audio(weforum.org). 
+        </p>
+      </div>
+      <a href="#module-4" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+    <section id="module-4" class="module animate-on-scroll">
+      <h2 class="module__title">Why Deepfakes Matter (1)</h2>
+      <div class="module__body">
+        <h3>1. Scams and Fraud</h3>
+        <p>
+          <b>Fake phone calls (Phishing):</b> Scammers use cloned voices to pretend to be a friend or family member and ask for money. A survey showed that one in four adults had experienced or knew someone affected by a voicecloning scam(pindrop.com) and that 70 % of people weren?t sure they could tell a cloned voice from a real one(pindrop.com). Fraud attempts involving deepfakes increased by 3 000 % in 2023, with North America seeing a 1 740 % rise(deepstrike.io). 
+        </p>
+        <p>
+          <b>Impersonating bosses:</b> Criminals have tricked employees into sending huge sums of money by appearing as their boss on a video call. In one case, a worker in Hong Kong transferred US $25.5 million because every participant on the call (except the worker) was a deepfake(weforum.org). Experts expect fraud losses caused by AI to grow from US $12.3 billion in 2023 to US $40 billion by 2027(unesco.org.) 
+        </p>
+        <p>
+          <b>Email scams 2.0:</b> Cybercriminals combine deepfake voices or videos with fake emails to make employees believe false instructions(us.norton.commxdusa.org). 
+        </p>
+      </div>
+      <a href="#module-5" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+    <section id="module-5" class="module animate-on-scroll">
+      <h2 class="module__title">Why Deepfakes Matter (2)</h2>
+      <div class="module__body">
+        <h3>2. Social Engineering and Personal Exploitation</h3>
+        <p>
+          <b>Romance scams:</b> Some scammers use AI chatbots and deepfake videos to create fake relationships. They may even send a video call with a deepfaked ?partner? to gain trust before asking for money(us.norton.com). 
+        </p>
+        <p>
+          <b>Fake explicit or harmful content:</b> Deepfakes can be used to create fake sexual or incriminating videos of a person. In the United States, the TAKE IT DOWN Act makes it illegal to share nonconsensual intimate deepfakes and requires websites to remove them quickly(agilitypr.com). Denmark has proposed treating a person?s voice and likeness as personal property, meaning you would need their permission to use it(agilitypr.com). 
+        </p>
+        <p>
+          <b>Cyberbullying:</b> Some students have used deepfake tools to make embarrassing or explicit videos of classmates or teachers. This can lead to serious emotional distress and harm(unesco.org).
+        </p>
+      </div>
+      <a href="#module-6" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+    <section id="module-6" class="module animate-on-scroll">
+      <h2 class="module__title">Why Deepfakes Matter (3)</h2>
+      <div class="module__body">
+        <h3>3. Political Tricks and Misinformation </h3>
+        <p>
+          <b>Fake election messages:</b> Deepfake robocalls or videos might falsely show political candidates saying things they never said(unesco.org). This can confuse voters and disrupt elections. 
+        </p>
+        <p>
+          <b>Distrust in evidence:</b> Deepfakes make it easy for people to deny real recordings (?It?s probably fake?), which hurts trust in videos and audio. Lawyers and judges already worry about how to prove whether evidence is real(isba.org.) 
+        </p>
+      </div>
+      <a href="#module-7" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+        <section id="module-7" class="module animate-on-scroll">
+      <h2 class="module__title">Why Deepfakes Matter (4)</h2>
+      <div class="module__body">
+        <h3>4. Legal and Privacy Issues </h3>
+        <p>
+        <b>Synthetic identities:</b>  Scammers can combine deepfake photos or voices with stolen personal information to create new identities for opening bank accounts or committing fraud(biometricupdate.com).   
+        </p>
+        <p>
+        <b>Easy access to your data:</b> Since more than half of people share their voices online, criminals have lots of material to work with(europarl.europa.eu). 
+        </p>
+        <p>
+        <b>Cyberbullying:</b> Some students have used deepfake tools to make embarrassing or explicit videos of classmates or teachers. This can lead to serious emotional distress and harm(unesco.org).
+        </p>
+      </div>
+      <a href="#module-8" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+    <section id="module-8" class="module animate-on-scroll">
+      <h2 class="module__title">What You Can Do</h2>
+      <div class="module__body">
+        <p>
+        Even though deepfakes are hard to spot, you can take steps to protect yourself: 
+        </p>
+        <li>
+          Be skeptical of unusual requests. If someone calls or messages you asking for money or sensitive information, verify their identity by contacting them through another channel. 
+        </li>
+        <li>
+          Don?t overshare voice or video clips online. The less material available, the harder it is for someone to clone your voice. 
+        </li>
+        <li>
+          Learn about trusted websites and tools that label AIgenerated content and help detect fakes. 
+        </li>
+      </div>
+      <a href="#module-9" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+<section id="module-9" class="module module--image-quiz animate-on-scroll">
+      <h2 class="module__title">Practice 1 - Deepfake or real^</h2>
+      <div class="module__body">
+        <p>
+          Another round: which of these two images do you think is manipulated^
+        </p>
+
+        <div class="image-pair">
+          <div class="image-placeholder image-placeholder--left">
+            Photo 1
+          </div>
+          <div class="image-placeholder image-placeholder--right">
+            Photo 2
+          </div>
+        </div>
+
+        <div class="module__choices">
+          <button class="btn btn--outline">
+            Photo 1 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Photo 2 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Both photos are deepfakes
+          </button>
+          <button class="btn btn--outline">
+            Neither photo is a deepfake
+          </button>
+        </div>
+      </div>
+      <a href="#module-10" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+
+    <section id="module-10" class="module module--image-quiz animate-on-scroll">
+      <h2 class="module__title">Practice 2 - Deepfake or real^</h2>
+      <div class="module__body">
+        <p>
+          Check details like eyes, teeth, shadows, and background. What stands
+          out to you^
+        </p>
+
+        <div class="image-pair">
+          <div class="image-placeholder image-placeholder--left">
+            Photo 1
+          </div>
+          <div class="image-placeholder image-placeholder--right">
+            Photo 2
+          </div>
+        </div>
+
+        <div class="module__choices">
+          <button class="btn btn--outline">
+            Photo 1 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Photo 2 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Both photos are deepfakes
+          </button>
+          <button class="btn btn--outline">
+            Neither photo is a deepfake
+          </button>
+        </div>
+      </div>
+      <a href="#module-11" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+
+    <section id="module-11" class="module module--image-quiz animate-on-scroll">
+      <h2 class="module__title">Practice 3 - Deepfake or real^</h2>
+      <div class="module__body">
+        <p>
+          Compare skin, hair, and lighting. Sometimes the background gives away
+          that an image is fake.
+        </p>
+
+        <div class="image-pair">
+          <div class="image-placeholder image-placeholder--left">
+            Photo 1
+          </div>
+          <div class="image-placeholder image-placeholder--right">
+            Photo 2
+          </div>
+        </div>
+
+        <div class="module__choices">
+          <button class="btn btn--outline">
+            Photo 1 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Photo 2 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Both photos are deepfakes
+          </button>
+          <button class="btn btn--outline">
+            Neither photo is a deepfake
+          </button>
+        </div>
+      </div>
+      <a href="#module-12" class="btn btn--primary module__next">
+        Next module
+      </a>
+    </section>
+
+    <section id="module-12" class="module module--image-quiz animate-on-scroll">
+      <h2 class="module__title">Practice 4 - Deepfake or real^</h2>
+      <div class="module__body">
+        <p>
+          Final round. After you choose, discuss why you made your pick.
+        </p>
+
+        <div class="image-pair">
+          <div class="image-placeholder image-placeholder--left">
+            Photo 1
+          </div>
+          <div class="image-placeholder image-placeholder--right">
+            Photo 2
+          </div>
+        </div>
+
+        <div class="module__choices">
+          <button class="btn btn--outline">
+            Photo 1 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Photo 2 is the deepfake
+          </button>
+          <button class="btn btn--outline">
+            Both photos are deepfakes
+          </button>
+          <button class="btn btn--outline">
+            Neither photo is a deepfake
+          </button>
+        </div>
+      </div>
+      <a href="index.html" class="btn btn--primary module__next">
+        Back to modules
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>AI Data Camp ? &copy; 2025</p>
+  </footer>
+
+  <button id="backToTop" class="btn btn--circle back-to-top" aria-label="Back to top">
+    ?
+  </button>
+  
+  <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
+    <div class="mascot__face">&#129302;</div>
+    <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
+
+
+
+

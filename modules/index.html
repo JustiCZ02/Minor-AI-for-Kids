@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Data Camp - Modules</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="theme-light">
+  <header class="nav">
+    <div class="nav__inner">
+      <div class="nav__brand">AI Data Camp</div>
+      <nav aria-label="Main navigation">
+        <ul class="nav__links">
+          <li><a href="../index.html#home" class="nav__link">Home</a></li>
+          <li><a href="index.html" class="nav__link">Learn Modules</a></li>
+          <li><a href="../teachers.html" class="nav__link">Teacher Toolkit</a></li>
+          <li><a href="../about.html" class="nav__link">About</a></li>
+          <li><a href="../sources.html" class="nav__link">Sources</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn--ghost nav__toggle" id="themeToggle" aria-label="Toggle light or dark mode">Light</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section section--hero intro">
+      <div class="intro__wrap card animate-on-scroll">
+        <h1 class="hero__title">AI Data Camp Modules</h1>
+        <p class="hero__subtitle">Short, real-world modules for teens who want to understand AI.</p>
+        <p class="hero__text">This page is your launchpad. Each topic is fast to finish, easy to discuss, and useful in real life. You'll see how AI works, where it shows up online, and how to think critically when it makes decisions. Start at the top and move through the topics, then unlock the final test when you're ready.</p>
+        <div class="intro__actions">
+          <a class="btn btn--primary intro__start" href="#quick-topics">Start</a>
+          <a class="btn btn--outline intro__start" href="#quick-topics">Pick a topic</a>
+        </div>
+      </div>
+    </section>
+    <section id="quick-topics" class="section">
+      <h2 class="section__title">Quick topics</h2>
+      <p class="section__subtitle">Choose a topic and jump in. Finish all topics to unlock the final test.</p>
+      <button class="btn btn--outline" id="resetProgress" type="button">Reset progress</button>
+
+      <div class="module-grid module-grid--topics">
+        <article class="card module animate-on-scroll" data-module="ai-basics">
+          <div class="module__header">
+            <h3 class="module__title">What is AI?</h3>
+            <div class="module__status">
+              <span class="module__badge module__badge--ai-basics">AI Core</span>
+              <button class="btn btn--tiny module__complete" aria-label="Mark What is AI as completed">Mark as completed</button>
+            </div>
+          </div>
+          <p>AI is when computers learn from data to do tasks like recommendations, speech-to-text, or image recognition.</p>
+          <ul>
+            <li>AI finds patterns in data</li>
+            <li>It can make predictions</li>
+            <li>It can power helpful tools</li>
+          </ul>
+          <div class="module__cta">
+            <a class="btn btn--primary" href="ai-basics.html#module-1">Start topic</a>
+          </div>
+        </article>
+
+        <article class="card module animate-on-scroll" data-module="machine-learning">
+          <div class="module__header">
+            <h3 class="module__title">How do machines learn?</h3>
+            <div class="module__status">
+              <span class="module__badge module__badge--ml">Training Lab</span>
+              <button class="btn btn--tiny module__complete" aria-label="Mark How do machines learn as completed">Mark as completed</button>
+            </div>
+          </div>
+          <p>Machines learn from many examples called training data. They look for patterns, like what a cat looks like in thousands of photos.</p>
+          <ul>
+            <li>Training data acts like practice problems</li>
+            <li>Algorithms look for patterns</li>
+            <li>More good data means better results</li>
+          </ul>
+          <div class="module__cta">
+            <a class="btn btn--primary" href="ai-basics.html#module-2">Start topic</a>
+          </div>
+        </article>
+
+        <article class="card module animate-on-scroll" data-module="privacy">
+          <div class="module__header">
+            <h3 class="module__title">Data & Privacy</h3>
+            <div class="module__status">
+              <span class="module__badge module__badge--privacy">Privacy Shield</span>
+              <button class="btn btn--tiny module__complete" aria-label="Mark Data and Privacy as completed">Mark as completed</button>
+            </div>
+          </div>
+          <p>Data is information, like photos, likes, clicks, and location. Apps collect data to recommend content and improve features.</p>
+          <ul>
+            <li>Think before you share</li>
+            <li>Check app permissions</li>
+            <li>Use strong, unique passwords</li>
+          </ul>
+          <div class="module__cta">
+            <a class="btn btn--primary" href="ai-safety.html#module-1">Start topic</a>
+          </div>
+        </article>
+
+        <article class="card module animate-on-scroll" data-module="social-media">
+          <div class="module__header">
+            <h3 class="module__title">AI in Social Media & Games</h3>
+            <div class="module__status">
+              <span class="module__badge module__badge--social">Feed Hacker</span>
+              <button class="btn btn--tiny module__complete" aria-label="Mark AI in Social Media and Games as completed">Mark as completed</button>
+            </div>
+          </div>
+          <p>Feeds use AI to sort posts and videos so you see what you enjoy. Games use AI for fair matchmaking and believable NPCs.</p>
+          <ul>
+            <li>Filters and lenses use computer vision</li>
+            <li>Recommendations react to your clicks</li>
+            <li>Matchmaking tries to balance skill levels</li>
+          </ul>
+          <div class="module__cta">
+            <a class="btn btn--primary" href="ai-basics.html#module-4">Start topic</a>
+          </div>
+        </article>
+
+        <article class="card module animate-on-scroll" data-module="myths">
+          <div class="module__header">
+            <h3 class="module__title">AI Myths & Facts</h3>
+            <div class="module__status">
+              <span class="module__badge module__badge--myths">Myth Buster</span>
+              <button class="btn btn--tiny module__complete" aria-label="Mark AI Myths and Facts as completed">Mark as completed</button>
+            </div>
+          </div>
+          <p>Some rumors about AI sound wild. Here are the facts so you know what is real and what is not.</p>
+          <ul>
+            <li>AI cannot think like humans</li>
+            <li>AI does not know everything</li>
+            <li>AI can make mistakes</li>
+          </ul>
+          <div class="module__cta">
+            <a class="btn btn--primary" href="ai-basics.html#module-5">Start topic</a>
+          </div>
+        </article>
+
+        <article class="card module animate-on-scroll module--locked" id="aiMentorCard">
+          <div class="module__header">
+            <h3 class="module__title">AI Mentor Chat</h3>
+            <span class="module__badge module__badge--final">Final Test</span>
+          </div>
+          <p>Final exam: prove you can spot good AI use, bad advice, and missing context.</p>
+          <ul>
+            <li>7 scenarios + 1 final question</li>
+            <li>Earn points for first-try answers</li>
+            <li>Explanations after every question</li>
+          </ul>
+          <p>Unlock this after you complete every module above.</p>
+          <div class="module__cta">
+            <div class="final-progress" role="group" aria-label="Final test unlock progress">
+              <div class="final-progress__label">
+                <span class="final-progress__title">Unlock progress</span>
+                <span class="final-progress__value" id="finalProgressValue">0/5</span>
+              </div>
+              <div class="final-progress__track" aria-hidden="true">
+                <div class="final-progress__bar" id="finalProgressBar"></div>
+              </div>
+            </div>
+            <a class="btn btn--primary module__mentor" data-mentor-href="../ai-mentor.html" href="javascript:void(0)" aria-disabled="true">Start final test</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Made with curiosity for young AI explorers. Keep learning and stay kind online.
+  </footer>
+
+  <button id="backToTop" class="btn btn--circle" aria-label="Back to top"><svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20L20 4L36 20" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only">Back to top</span></button>
+
+  <div class="mascot" role="button" tabindex="0" aria-label="AI Data Camp helper" id="mascot">
+    <div class="mascot__face">&#129302;</div>
+    <div class="mascot__bubble" id="mascotBubble">Stay curious!</div>
+  </div>
+
+  <script src="../script.js"></script>
+</body>
+</html>
+

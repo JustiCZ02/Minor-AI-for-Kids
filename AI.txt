@@ -1,0 +1,30 @@
+What is Artificial Intelligence
+Artificial Intelligence, often called  AI, is a technology that allows computers to do tasks that usually need human thinking. Instead of following fixed instructions, AI systems can learn from information, recognise patterns and make decisions. Today, AI is part of everyday life. It helps recommend videos and music, recognises faces in photos, translates languages, and supports doctors, teachers, and scientists. 
+
+Experts and governments around the world describe AI in similar ways. They explain that AI is a computer-based system created by humans, designed to work toward goals set by people, and able to influence the real or digital world. In simple terms, AI does not think or feel like a human, but it can analyse information and produce results that matter in real life. 
+
+This website explains what AI is, how it works, and why it is important to use it carefully and responsibly. 
+
+What Artificial Intelligence Does 
+
+AI systems work by receiving information, processing it and producing an output. That output could be a suggestion, a prediction, or a decision. For example, when a streaming app suggests a movie, or when a phone unlocks using face recognition, AI is working behind the scenes. 
+
+AI does not have opinions or emotions. It learns from examples and data given to it by humans. The quality of its results depends on how well it is designed, the data it learns from and the rules people set for it. 
+
+Different Types of Artificial Intelligence 
+
+Most AI systems today are known as narrow AI. This means they are built to perform one specific task very well. A narrow AI system might recognise speech, play a game, or help sort emails, but it cannot suddenly learn to do a completely different job. 
+
+Some people talk about artificial general intelligence, or AGI, which would be an AI that can do any thinking task a human can do. This kind of AI does not exist yet and is still an idea mostly discussed in science fiction and research. 
+
+Learning From Data: Machine Learning and Deep Learning 
+
+Many modern AI systems use a method called machine learning. This means the computer learns by looking at many examples instead of being told every rule. Over time, it improves by finding patterns in the data. 
+
+A more advanced form of this is deep learning, which uses layers of artificial “neurons” inspired by the human brain. Deep learning helps AI understand images, spoken language and written text, and it powers many of the most impressive AI tools used today. 
+
+Generative AI: When AI Creates New Content 
+
+Some AI systems can create entirely new content instead of just analysing information. This is called generative AI. These systems can produce text, images, music, or videos that look or sound real. 
+
+One example of generative AI is a Generative Adversarial Network, also known as a GAN. A GAN works by using two AI systems that compete with each other. One system tries to create realistic content, while the other checks whether the result looks real or fake. As they keep competing, the AI learns to create better and more realistic outputs. 

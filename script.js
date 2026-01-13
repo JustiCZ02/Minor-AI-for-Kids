@@ -1,17 +1,39 @@
-// Storage keys
+﻿// Storage keys
 const STORAGE_KEYS = {
   modules: "adc-modules",
   theme: "adc-theme"
 };
 
-const totalModules = 5;
+const UI_CONSTANTS = {
+  backToTopScrollY: 300,
+  mascotDisplayMs: 3500,
+  revealThreshold: 0.2
+};
+
+const STORE_VALIDATORS = {
+  [STORAGE_KEYS.modules]: (value) => value && typeof value === "object" && !Array.isArray(value),
+  [STORAGE_KEYS.theme]: (value) => typeof value === "string"
+};
 
 // Helpers to read/write JSON safely
 const readStore = (key, fallback) => {
-  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-  catch { return fallback; }
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    if (value === null || value === undefined) return fallback;
+    const validator = STORE_VALIDATORS[key];
+    if (validator && !validator(value)) return fallback;
+    return value;
+  } catch {
+    return fallback;
+  }
 };
-const writeStore = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+const writeStore = (key, value) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.error("Failed to save localStorage key:", key, error);
+  }
+};
 
 const moduleFlowSection = document.getElementById("moduleFlow");
 if (moduleFlowSection) {
@@ -58,36 +80,91 @@ if (moduleFlowSection) {
 // Module expand/collapse and completion
 const moduleCards = document.querySelectorAll('.module[data-module]');
 let moduleProgress = readStore(STORAGE_KEYS.modules, {});
+const aiMentorCard = document.getElementById("aiMentorCard");
+const aiMentorLink = aiMentorCard ? aiMentorCard.querySelector(".module__mentor") : null;
+const resetProgressBtn = document.getElementById("resetProgress");
+const finalProgressBar = document.getElementById("finalProgressBar");
+const finalProgressValue = document.getElementById("finalProgressValue");
+
+const updateMentorLock = () => {
+  if (!aiMentorCard || !aiMentorLink || !moduleCards.length) return;
+  const completedCount = Array.from(moduleCards).filter((card) => moduleProgress[card.dataset.module]).length;
+  const unlocked = completedCount === moduleCards.length;
+  const progressPct = Math.round((completedCount / moduleCards.length) * 100);
+  if (finalProgressBar) finalProgressBar.style.width = `${progressPct}%`;
+  if (finalProgressValue) finalProgressValue.textContent = `${completedCount}/${moduleCards.length}`;
+  aiMentorLink.textContent = "Start final test";
+  if (unlocked) {
+    if (finalProgressBar) finalProgressBar.closest(".final-progress").style.display = "none";
+    aiMentorLink.setAttribute("href", aiMentorLink.dataset.mentorHref || "../ai-mentor.html");
+    aiMentorLink.removeAttribute("aria-disabled");
+    aiMentorCard.classList.remove("module--locked");
+    aiMentorLink.style.display = "inline-flex";
+  } else {
+    if (finalProgressBar) finalProgressBar.closest(".final-progress").style.display = "block";
+    aiMentorLink.setAttribute("href", "javascript:void(0)");
+    aiMentorLink.setAttribute("aria-disabled", "true");
+    aiMentorCard.classList.add("module--locked");
+    aiMentorLink.style.display = "none";
+  }
+};
 
 moduleCards.forEach((card) => {
   const toggleBtn = card.querySelector(".module__toggle");
   const extra = card.querySelector(".module__extra");
   const doneBtn = card.querySelector(".module__complete");
+  const badge = card.querySelector(".module__badge");
   const id = card.dataset.module;
-  if (!toggleBtn || !extra || !doneBtn || !id) return;
+  if (!doneBtn || !id) return;
 
-  toggleBtn.addEventListener("click", () => {
-    extra.classList.toggle("show");
-    toggleBtn.textContent = extra.classList.contains("show") ? "Read less" : "Read more";
-  });
+  if (toggleBtn && extra) {
+    toggleBtn.addEventListener("click", () => {
+      extra.classList.toggle("show");
+      toggleBtn.textContent = extra.classList.contains("show") ? "Read less" : "Read more";
+    });
+  }
 
   doneBtn.addEventListener("click", () => {
     moduleProgress[id] = true;
     updateModuleUI(card, true);
+    if (badge) badge.classList.add("is-complete");
     writeStore(STORAGE_KEYS.modules, moduleProgress);
+    updateMentorLock();
   });
 
-  if (moduleProgress[id]) updateModuleUI(card, true);
+  if (moduleProgress[id]) {
+    updateModuleUI(card, true);
+    if (badge) badge.classList.add("is-complete");
+  }
 });
+updateMentorLock();
+
+if (resetProgressBtn) {
+  resetProgressBtn.addEventListener("click", () => {
+    moduleProgress = {};
+    writeStore(STORAGE_KEYS.modules, moduleProgress);
+    moduleCards.forEach((card) => {
+      const badge = card.querySelector(".module__badge");
+      updateModuleUI(card, false);
+      if (badge) badge.classList.remove("is-complete");
+    });
+    updateMentorLock();
+  });
+}
 
 function updateModuleUI(card, completed) {
   const check = card.querySelector(".module__check");
   const button = card.querySelector(".module__complete");
   if (completed) {
-    check.style.display = "inline";
+    if (check) check.style.display = "inline";
     button.textContent = "Completed";
     button.setAttribute("aria-pressed", "true");
     button.disabled = true;
+  } else {
+    if (check) check.style.display = "none";
+    button.textContent = "Mark as completed";
+    button.removeAttribute("aria-pressed");
+    button.disabled = false;
   }
 }
 
@@ -179,14 +256,14 @@ if (summaryBtn && resultBox) {
 // Back to top visibility + action
 const backToTop = document.getElementById("backToTop");
 window.addEventListener("scroll", () => {
-  backToTop.style.display = window.scrollY > 300 ? "inline-flex" : "none";
+  backToTop.style.display = window.scrollY > UI_CONSTANTS.backToTopScrollY ? "inline-flex" : "none";
 });
 backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 // Reveal cards on scroll
 const observer = new IntersectionObserver(
   (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible")),
-  { threshold: 0.2 }
+  { threshold: UI_CONSTANTS.revealThreshold }
 );
 document.querySelectorAll(".animate-on-scroll").forEach((el) => observer.observe(el));
 
@@ -204,7 +281,7 @@ themeToggle.addEventListener("click", () => {
 function setTheme(mode) {
   document.body.classList.toggle("theme-dark", mode === "dark");
   document.body.classList.toggle("theme-light", mode === "light");
-  themeToggle.textContent = mode === "dark" ? "🌙 Dark" : "🌞 Light";
+  themeToggle.textContent = mode === "dark" ? "Dark" : "Light";
 }
 
 // Mascot facts
@@ -258,7 +335,7 @@ const showRandomFact = () => {
   if (!bubble) return;
   bubble.textContent = facts[Math.floor(Math.random() * facts.length)];
   bubble.classList.add("show");
-  setTimeout(() => bubble.classList.remove("show"), 3500);
+  setTimeout(() => bubble.classList.remove("show"), UI_CONSTANTS.mascotDisplayMs);
 };
 
 if (mascot && bubble) {
@@ -270,8 +347,3 @@ if (mascot && bubble) {
     }
   });
 }
-
-// Bring focus outlines when using keyboard
-document.body.addEventListener("keydown", (e) => {
-  if (e.key === "Tab") document.body.classList.add("user-is-tabbing");
-});

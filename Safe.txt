@@ -1,0 +1,17 @@
+Why Safe Use of AI Matters 
+
+Because AI can affect people’s lives, it can cause harm if it is used carelessly. AI systems can sometimes be unfair, invade privacy, spread false information, or be used to create fake images and videos that mislead others. These risks are especially serious when AI is used in areas like healthcare, education or law enforcement. 
+
+That is why experts, governments, and organisations work together to set rules and guidelines for how AI should be developed and used. 
+
+Principles for Using AI Responsibly 
+
+International organisations such as UNESCO and NIST agree that trustworthy AI should follow important principles. AI systems should support human decision-making rather than replace it, and people should always be able to step in and take control. AI should treat everyone fairly and avoid discrimination. Personal data must be protected, and users should be told when AI is being used. 
+
+Transparency is also important, meaning people should understand what an AI system can and cannot do. AI systems should be safe, secure, and tested before they are used widely. Finally, there must be accountability, so that someone is responsible if an AI system causes harm. 
+
+Laws and Rules About Artificial Intelligence 
+
+Some governments have started creating laws to control how AI is used. These laws aim to reduce harm, protect privacy, and prevent misuse, such as creating fake images or videos without someone’s permission. By setting clear rules, governments help make sure AI technology benefits society rather than causing damage. 
+
+Alongside laws, experts have created risk-management frameworks that help organisations test AI systems, identify dangers, and fix problems before AI is used in real-world situations. 
