@@ -115,7 +115,7 @@ moduleCards.forEach((card) => {
   const doneBtn = card.querySelector(".module__complete");
   const badge = card.querySelector(".module__badge");
   const id = card.dataset.module;
-  if (!doneBtn || !id) return;
+  if (!id) return;
 
   if (toggleBtn && extra) {
     toggleBtn.addEventListener("click", () => {
@@ -124,13 +124,15 @@ moduleCards.forEach((card) => {
     });
   }
 
-  doneBtn.addEventListener("click", () => {
-    moduleProgress[id] = true;
-    updateModuleUI(card, true);
-    if (badge) badge.classList.add("is-complete");
-    writeStore(STORAGE_KEYS.modules, moduleProgress);
-    updateMentorLock();
-  });
+  if (doneBtn) {
+    doneBtn.addEventListener("click", () => {
+      moduleProgress[id] = true;
+      updateModuleUI(card, true);
+      if (badge) badge.classList.add("is-complete");
+      writeStore(STORAGE_KEYS.modules, moduleProgress);
+      updateMentorLock();
+    });
+  }
 
   if (moduleProgress[id]) {
     updateModuleUI(card, true);
@@ -157,14 +159,18 @@ function updateModuleUI(card, completed) {
   const button = card.querySelector(".module__complete");
   if (completed) {
     if (check) check.style.display = "inline";
-    button.textContent = "Completed";
-    button.setAttribute("aria-pressed", "true");
-    button.disabled = true;
+    if (button) {
+      button.textContent = "Completed";
+      button.setAttribute("aria-pressed", "true");
+      button.disabled = true;
+    }
   } else {
     if (check) check.style.display = "none";
-    button.textContent = "Mark as completed";
-    button.removeAttribute("aria-pressed");
-    button.disabled = false;
+    if (button) {
+      button.textContent = "Mark as completed";
+      button.removeAttribute("aria-pressed");
+      button.disabled = false;
+    }
   }
 }
 

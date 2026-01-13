@@ -195,21 +195,20 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 10px;
+  padding: 0;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  background: #9ca3af;
-  color: #0b1220;
+  background: transparent;
 }
-.module__badge.is-complete { color: #0b1220; }
-.module__badge--ai-basics.is-complete { background: #60a5fa; }
-.module__badge--ml.is-complete { background: #f59e0b; }
-.module__badge--privacy.is-complete { background: #34d399; }
-.module__badge--social.is-complete { background: #a78bfa; }
-.module__badge--myths.is-complete { background: #f87171; }
-.module__badge--final.is-complete { background: #fbbf24; }
+.module__badge-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0.7);
+  transition: filter 0.2s ease;
+}
+.module__badge.is-complete .module__badge-img {
+  filter: none;
+}
 .final-progress {
   margin: 12px 0 16px;
   padding: 12px;

@@ -16,7 +16,6 @@
           <li><a href="modules/index.html" class="nav__link">Learn Modules</a></li>
           <li><a href="ai-mentor.html" class="nav__link" aria-current="page">AI Mentor Chat</a></li>
           <li><a href="about.html" class="nav__link">About & Toolkit</a></li>
-          <li><a href="sources.html" class="nav__link">Sources</a></li>
         </ul>
       </nav>
       <button class="btn btn--ghost nav__toggle" id="themeToggle" aria-label="Toggle light or dark mode">Light</button>
@@ -89,6 +88,145 @@
   </div>
 
   <script src="script.js"></script>
+  <script type="application/json" id="quizData">
+{
+  "module": {
+    "id": "ai-mentor-critical-use",
+    "title": "Talk to an AI mentor (and learn what it cannot do)",
+    "description": "This module helps students understand when AI is useful and when human thinking is still needed.",
+    "scenarios": [
+      {
+        "id": 1,
+        "topic": "Understanding homework",
+        "question": "Can you explain how I should solve this type of homework question?",
+        "ai_answer": "I can explain the general steps that are usually used to solve this type of question. You can follow those steps and try them yourself. However, you should always check whether the method fits your specific assignment.",
+        "reflection": {
+          "question": "What is most important to remember when using AI for homework?",
+          "options": [
+            "AI replaces the need to study",
+            "You still need to understand the solution yourself",
+            "AI explanations are always correct",
+            "AI works the same for every subject"
+          ],
+          "correct_answer": 1
+        },
+        "explanation": "AI can explain steps, but learning only happens if you understand and apply them yourself."
+      },
+      {
+        "id": 2,
+        "topic": "Searching for information",
+        "question": "I am working on a school project. Can I use information from AI?",
+        "ai_answer": "AI can help give an overview of a topic, but the information should be checked using reliable sources such as school books or trusted websites.",
+        "reflection": {
+          "question": "What is the biggest limitation of AI here?",
+          "options": [
+            "It only works with images",
+            "It does not show where the information comes from",
+            "It refuses to help with schoolwork",
+            "It only gives opinions"
+          ],
+          "correct_answer": 1
+        },
+        "explanation": "Without clear sources, information cannot be trusted without verification."
+      },
+      {
+        "id": 3,
+        "topic": "Writing social media text",
+        "question": "Can you write a short text for a social media post?",
+        "ai_answer": "I can generate a text that follows common trends and popular writing styles, but it may sound generic or similar to posts from others.",
+        "reflection": {
+          "question": "What is a realistic downside of AI-generated posts?",
+          "options": [
+            "They are always incorrect",
+            "They break social media rules",
+            "They often sound less personal",
+            "They cannot be posted online"
+          ],
+          "correct_answer": 2
+        },
+        "explanation": "AI is good for inspiration, but personal style still matters."
+      },
+      {
+        "id": 4,
+        "topic": "Making a schedule",
+        "question": "Can you create a daily schedule for me?",
+        "ai_answer": "I can suggest a general schedule based on time management ideas, but it may not perfectly fit your day or unexpected changes.",
+        "reflection": {
+          "question": "Why might this schedule not work perfectly?",
+          "options": [
+            "AI ignores time completely",
+            "AI only works for adults",
+            "AI cannot predict changes in your day",
+            "AI refuses to make schedules"
+          ],
+          "correct_answer": 2
+        },
+        "explanation": "Schedules made by AI often need human adjustment."
+      },
+      {
+        "id": 5,
+        "topic": "Checking facts",
+        "question": "I read something online. Can you tell me if it is true?",
+        "ai_answer": "I can say whether the information sounds likely based on patterns, but I cannot guarantee it is true without reliable sources.",
+        "reflection": {
+          "question": "What is the main weakness of this answer?",
+          "options": [
+            "It deletes information",
+            "It only uses emotions",
+            "It relies on likelihood, not proof",
+            "It refuses to answer"
+          ],
+          "correct_answer": 2
+        },
+        "explanation": "Something that sounds logical is not always true."
+      },
+      {
+        "id": 6,
+        "topic": "Helping with decisions",
+        "question": "What is the best option in this situation?",
+        "ai_answer": "I can suggest an option that often works in similar situations, but I do not know all the details or consequences of your choice.",
+        "reflection": {
+          "question": "What can AI not do in this situation?",
+          "options": [
+            "Summarize information",
+            "Take responsibility for the outcome",
+            "Explain general advantages",
+            "List possible options"
+          ],
+          "correct_answer": 1
+        },
+        "explanation": "Only humans are responsible for decisions and their consequences."
+      },
+      {
+        "id": 7,
+        "topic": "Responsible AI use",
+        "question": "When is AI most useful?",
+        "ai_answer": "AI is useful for explanations, generating ideas, organizing information, and saving time when used as a support tool.",
+        "reflection": {
+          "question": "When should you be most careful using AI?",
+          "options": [
+            "When brainstorming ideas",
+            "When organizing notes",
+            "When asking simple questions",
+            "When making important decisions"
+          ],
+          "correct_answer": 3
+        },
+        "explanation": "AI should support thinking, not replace judgment."
+      }
+    ],
+    "final_question": {
+      "question": "What is the best way to use AI?",
+      "options": [
+        "Avoid AI completely",
+        "Use AI as a tool and think critically",
+        "Let AI decide for you"
+      ],
+      "correct_answer": 1
+    }
+  }
+}
+  </script>
   <script>
     (async () => {
       let chatData;
@@ -97,8 +235,18 @@
         if (!response.ok) throw new Error(`Failed to load quiz data: ${response.status}`);
         chatData = await response.json();
       } catch (error) {
-        console.error("Failed to load quiz data", error);
-        return;
+        const fallback = document.getElementById("quizData");
+        if (fallback) {
+          try {
+            chatData = JSON.parse(fallback.textContent.trim());
+          } catch (parseError) {
+            console.error("Failed to parse embedded quiz data", parseError);
+            return;
+          }
+        } else {
+          console.error("Failed to load quiz data", error);
+          return;
+        }
       }
 
     const chatWindow = document.getElementById("chatWindow");
