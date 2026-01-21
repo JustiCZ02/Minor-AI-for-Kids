@@ -117,6 +117,14 @@ moduleCards.forEach((card) => {
   const id = card.dataset.module;
   if (!id) return;
 
+  const markComplete = () => {
+    moduleProgress[id] = true;
+    updateModuleUI(card, true);
+    if (badge) badge.classList.add("is-complete");
+    writeStore(STORAGE_KEYS.modules, moduleProgress);
+    updateMentorLock();
+  };
+
   if (toggleBtn && extra) {
     toggleBtn.addEventListener("click", () => {
       extra.classList.toggle("show");
@@ -126,11 +134,14 @@ moduleCards.forEach((card) => {
 
   if (doneBtn) {
     doneBtn.addEventListener("click", () => {
-      moduleProgress[id] = true;
-      updateModuleUI(card, true);
-      if (badge) badge.classList.add("is-complete");
-      writeStore(STORAGE_KEYS.modules, moduleProgress);
-      updateMentorLock();
+      markComplete();
+    });
+  }
+
+  if (badge) {
+    badge.addEventListener("click", () => {
+      if (moduleProgress[id]) return;
+      markComplete();
     });
   }
 
@@ -287,7 +298,7 @@ themeToggle.addEventListener("click", () => {
 function setTheme(mode) {
   document.body.classList.toggle("theme-dark", mode === "dark");
   document.body.classList.toggle("theme-light", mode === "light");
-  themeToggle.textContent = mode === "dark" ? "Dark" : "Light";
+  themeToggle.textContent = mode === "dark" ? "Dark 🌙" : "Light ☀️";
 }
 
 // Mascot facts

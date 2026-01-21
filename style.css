@@ -198,6 +198,7 @@ a { color: inherit; text-decoration: none; }
   padding: 0;
   border-radius: 999px;
   background: transparent;
+  cursor: pointer;
 }
 .module__badge-img {
   width: 72px;
