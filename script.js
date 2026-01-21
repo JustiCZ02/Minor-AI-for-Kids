@@ -262,6 +262,12 @@ if (window.speechSynthesis) {
 }
 
 const normalizeText = (text) => text.replace(/\s+/g, " ").trim();
+const splitIntoSentences = (text) => {
+  if (!text) return [];
+  const normalized = normalizeText(text);
+  const parts = normalized.split(/(?<=[.!?])\s+/);
+  return parts.map((part) => part.trim()).filter(Boolean);
+};
 
 const createReadAloudControls = (moduleEl) => {
   const title = moduleEl.querySelector(".module__title");
@@ -292,12 +298,26 @@ const createReadAloudControls = (moduleEl) => {
 
   let activeUtterance = null;
   let isPaused = false;
+  let sentences = [];
+  let sentenceIndex = 0;
 
   const speakModule = () => {
     window.speechSynthesis.cancel();
-    const text = normalizeText(body.textContent);
-    if (!text) return;
-    const utterance = new SpeechSynthesisUtterance(text);
+    sentences = splitIntoSentences(body.textContent);
+    sentenceIndex = 0;
+    if (!sentences.length) return;
+    playFromIndex(sentenceIndex);
+  };
+
+  const playFromIndex = (startIndex) => {
+    if (!sentences.length) return;
+    if (startIndex >= sentences.length) {
+      isPaused = false;
+      pauseBtn.textContent = "Pause";
+      activeUtterance = null;
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(sentences[startIndex]);
     utterance.lang = "en-US";
     utterance.voice = cachedVoice || getEnglishVoice();
     utterance.rate = 0.9;
@@ -311,9 +331,10 @@ const createReadAloudControls = (moduleEl) => {
       pauseBtn.textContent = "Pause";
     };
     utterance.onend = () => {
-      isPaused = false;
-      pauseBtn.textContent = "Pause";
-      activeUtterance = null;
+      if (!isPaused) {
+        sentenceIndex += 1;
+        playFromIndex(sentenceIndex);
+      }
     };
     activeUtterance = utterance;
     window.speechSynthesis.speak(utterance);
@@ -326,19 +347,39 @@ const createReadAloudControls = (moduleEl) => {
   });
 
   pauseBtn.addEventListener("click", () => {
+    // If currently speaking and not paused, pause it
     if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
       window.speechSynthesis.pause();
       pauseBtn.textContent = "Resume";
       isPaused = true;
       return;
     }
-    if (window.speechSynthesis.paused || isPaused) {
-      window.speechSynthesis.resume();
-      setTimeout(() => window.speechSynthesis.resume(), 60);
+    
+    // If speech synthesis is paused, resume it
+    if (window.speechSynthesis.paused) {
       pauseBtn.textContent = "Pause";
       isPaused = false;
+      window.speechSynthesis.resume();
       return;
     }
+    
+    // If manually paused but synthesis not paused, replay current sentence
+    if (isPaused && sentences.length && sentenceIndex < sentences.length) {
+      pauseBtn.textContent = "Pause";
+      isPaused = false;
+      playFromIndex(sentenceIndex);
+      return;
+    }
+    
+    // If we have sentences left, continue from current index
+    if (sentences.length && sentenceIndex < sentences.length) {
+      pauseBtn.textContent = "Pause";
+      isPaused = false;
+      playFromIndex(sentenceIndex);
+      return;
+    }
+    
+    // Otherwise start fresh
     speakModule();
   });
 
@@ -346,6 +387,9 @@ const createReadAloudControls = (moduleEl) => {
     window.speechSynthesis.cancel();
     pauseBtn.textContent = "Pause";
     activeUtterance = null;
+    sentences = [];
+    sentenceIndex = 0;
+    isPaused = false;
   });
 };
 
