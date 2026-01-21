@@ -217,7 +217,7 @@ if (moduleModeButtons.length && moduleSectionsArr.length) {
       moduleNextButtons.forEach((btn) => btn.classList.remove("app-hidden"));
     } else {
       moduleSectionsArr.forEach((section) => section.classList.remove("app-hidden"));
-      moduleNextButtons.forEach((btn) => btn.classList.add("app-hidden"));
+      moduleNextButtons.forEach((btn) => btn.classList.remove("app-hidden"));
     }
   };
 
@@ -227,6 +227,55 @@ if (moduleModeButtons.length && moduleSectionsArr.length) {
 
   applyMode("sequence");
 }
+
+// Quick scroll buttons
+document.querySelectorAll("[data-scroll-target]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const allModeBtn = document.querySelector('[data-module-mode="all"]');
+    if (allModeBtn) allModeBtn.click();
+    const target = document.querySelector(btn.dataset.scrollTarget);
+    if (!target) return;
+    const offset = 80;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  });
+});
+
+// Willem pair sizing (match AI card height to the real photo)
+const syncWillemPairHeights = () => {
+  const pair = document.querySelector(".image-pair--willem");
+  if (!pair) return;
+  const realImage = pair.querySelector(".image-real");
+  if (!realImage) return;
+  const cards = pair.querySelectorAll(".image-card--willem");
+  cards.forEach((card) => (card.style.height = "auto"));
+  const height = realImage.getBoundingClientRect().height;
+  if (!height) return;
+  cards.forEach((card) => (card.style.height = `${height}px`));
+};
+
+window.addEventListener("load", syncWillemPairHeights);
+window.addEventListener("resize", syncWillemPairHeights);
+
+// Deepfake image quiz interactions
+const imageQuizSections = document.querySelectorAll(".module--image-quiz");
+imageQuizSections.forEach((section) => {
+  const correctAnswer = section.dataset.answer;
+  const choices = Array.from(section.querySelectorAll(".quiz-choice"));
+  if (!correctAnswer || !choices.length) return;
+
+  choices.forEach((button) => {
+    button.addEventListener("click", () => {
+      const isCorrect = button.dataset.choice === correctAnswer;
+      if (isCorrect) {
+        button.classList.add("is-correct");
+      } else {
+        button.classList.add("is-wrong");
+      }
+      button.setAttribute("aria-pressed", "true");
+    });
+  });
+});
 
 // Data Detective mini-game
 const decisions = { camera: null, contacts: null, location: null, notifications: null };
