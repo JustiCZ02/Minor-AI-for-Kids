@@ -296,100 +296,90 @@ const createReadAloudControls = (moduleEl) => {
   moduleEl.prepend(controls);
   moduleEl.classList.add("has-audio-controls");
 
-  let activeUtterance = null;
   let isPaused = false;
   let sentences = [];
   let sentenceIndex = 0;
+  let isPlaying = false;
 
   const speakModule = () => {
     window.speechSynthesis.cancel();
     sentences = splitIntoSentences(body.textContent);
     sentenceIndex = 0;
+    isPaused = false;
+    isPlaying = false;
     if (!sentences.length) return;
     playFromIndex(sentenceIndex);
   };
 
   const playFromIndex = (startIndex) => {
-    if (!sentences.length) return;
-    if (startIndex >= sentences.length) {
+    if (!sentences.length || startIndex >= sentences.length) {
       isPaused = false;
+      isPlaying = false;
       pauseBtn.textContent = "Pause";
-      activeUtterance = null;
       return;
     }
+    
     const utterance = new SpeechSynthesisUtterance(sentences[startIndex]);
     utterance.lang = "en-US";
     utterance.voice = cachedVoice || getEnglishVoice();
     utterance.rate = 0.9;
     utterance.pitch = 1.05;
-    utterance.onpause = () => {
-      isPaused = true;
-      pauseBtn.textContent = "Resume";
-    };
-    utterance.onresume = () => {
-      isPaused = false;
-      pauseBtn.textContent = "Pause";
-    };
+    
     utterance.onend = () => {
       if (!isPaused) {
         sentenceIndex += 1;
         playFromIndex(sentenceIndex);
       }
     };
-    activeUtterance = utterance;
+    
+    utterance.onerror = () => {
+      isPlaying = false;
+    };
+    
+    isPlaying = true;
+    isPaused = false;
+    pauseBtn.textContent = "Pause";
     window.speechSynthesis.speak(utterance);
   };
 
   readBtn.addEventListener("click", () => {
     controls.classList.add("is-active");
-    pauseBtn.textContent = "Pause";
     speakModule();
   });
 
   pauseBtn.addEventListener("click", () => {
-    // If currently speaking and not paused, pause it
-    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+    // If not playing, nothing to pause/resume
+    if (!isPlaying && !isPaused && !sentences.length) {
+      return;
+    }
+    
+    // If currently paused, resume
+    if (isPaused) {
+      isPaused = false;
+      pauseBtn.textContent = "Pause";
+      window.speechSynthesis.cancel();
+      playFromIndex(sentenceIndex);
+      return;
+    }
+    
+    // If currently playing, pause
+    if (isPlaying) {
       window.speechSynthesis.pause();
-      pauseBtn.textContent = "Resume";
       isPaused = true;
+      pauseBtn.textContent = "Resume";
+      isPlaying = false;
       return;
     }
-    
-    // If speech synthesis is paused, resume it
-    if (window.speechSynthesis.paused) {
-      pauseBtn.textContent = "Pause";
-      isPaused = false;
-      window.speechSynthesis.resume();
-      return;
-    }
-    
-    // If manually paused but synthesis not paused, replay current sentence
-    if (isPaused && sentences.length && sentenceIndex < sentences.length) {
-      pauseBtn.textContent = "Pause";
-      isPaused = false;
-      playFromIndex(sentenceIndex);
-      return;
-    }
-    
-    // If we have sentences left, continue from current index
-    if (sentences.length && sentenceIndex < sentences.length) {
-      pauseBtn.textContent = "Pause";
-      isPaused = false;
-      playFromIndex(sentenceIndex);
-      return;
-    }
-    
-    // Otherwise start fresh
-    speakModule();
   });
 
   stopBtn.addEventListener("click", () => {
     window.speechSynthesis.cancel();
     pauseBtn.textContent = "Pause";
-    activeUtterance = null;
     sentences = [];
     sentenceIndex = 0;
     isPaused = false;
+    isPlaying = false;
+    controls.classList.remove("is-active");
   });
 };
 
