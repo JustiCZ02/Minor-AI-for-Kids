@@ -11,6 +11,8 @@
   --header-gradient: linear-gradient(90deg, #4f8bff, #7c6ff9);
   --quiz-correct: #22c55e;
   --quiz-wrong: #ef4444;
+  --color-safe: #22c55e;
+  --color-risky: #ef4444;
 }
 
 body.theme-dark {
@@ -25,6 +27,8 @@ body.theme-dark {
   --header-gradient: linear-gradient(90deg, #1e40af, #7c3aed);
   --quiz-correct: #34d399;
   --quiz-wrong: #f87171;
+  --color-safe: #34d399;
+  --color-risky: #f87171;
 }
 
 * { box-sizing: border-box; }
@@ -106,6 +110,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav__toggle { color: #fff; border-color: #fff; }
+
+.is-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
 
 .section {
   max-width: 1200px;

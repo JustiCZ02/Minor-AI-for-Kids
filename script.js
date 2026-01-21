@@ -7,7 +7,10 @@ const STORAGE_KEYS = {
 const UI_CONSTANTS = {
   backToTopScrollY: 300,
   mascotDisplayMs: 3500,
-  revealThreshold: 0.2
+  revealThreshold: 0.2,
+  scrollOffset: 80,
+  audioRate: 0.9,
+  audioPitch: 1.05
 };
 
 const STORE_VALIDATORS = {
@@ -72,7 +75,7 @@ if (moduleFlowSection) {
     finishBtn.addEventListener("click", () => {
       steps.forEach((s) => s.classList.add("app-hidden"));
       if (completionStep) completionStep.classList.remove("app-hidden");
-      if (progressText) progressText.textContent = "Step 6 of 6";
+      if (progressText) progressText.textContent = `Step ${steps.length} of ${steps.length}`;
     });
   }
 }
@@ -98,12 +101,14 @@ const updateMentorLock = () => {
     if (finalProgressBar) finalProgressBar.closest(".final-progress").style.display = "none";
     aiMentorLink.setAttribute("href", aiMentorLink.dataset.mentorHref || "../ai-mentor.html");
     aiMentorLink.removeAttribute("aria-disabled");
+    aiMentorLink.classList.remove("is-disabled");
     aiMentorCard.classList.remove("module--locked");
     aiMentorLink.style.display = "inline-flex";
   } else {
     if (finalProgressBar) finalProgressBar.closest(".final-progress").style.display = "block";
-    aiMentorLink.setAttribute("href", "javascript:void(0)");
+    aiMentorLink.removeAttribute("href");
     aiMentorLink.setAttribute("aria-disabled", "true");
+    aiMentorLink.classList.add("is-disabled");
     aiMentorCard.classList.add("module--locked");
     aiMentorLink.style.display = "none";
   }
@@ -235,8 +240,7 @@ document.querySelectorAll("[data-scroll-target]").forEach((btn) => {
     if (allModeBtn) allModeBtn.click();
     const target = document.querySelector(btn.dataset.scrollTarget);
     if (!target) return;
-    const offset = 80;
-    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    const top = target.getBoundingClientRect().top + window.scrollY - UI_CONSTANTS.scrollOffset;
     window.scrollTo({ top, behavior: "smooth" });
   });
 });
@@ -270,9 +274,8 @@ const splitIntoSentences = (text) => {
 };
 
 const createReadAloudControls = (moduleEl) => {
-  const title = moduleEl.querySelector(".module__title");
   const body = moduleEl.querySelector(".module__body");
-  if (!title || !body || !window.speechSynthesis) return;
+  if (!body || !window.speechSynthesis) return;
 
   const controls = document.createElement("div");
   controls.className = "module-audio-controls";
@@ -322,8 +325,8 @@ const createReadAloudControls = (moduleEl) => {
     const utterance = new SpeechSynthesisUtterance(sentences[startIndex]);
     utterance.lang = "en-US";
     utterance.voice = cachedVoice || getEnglishVoice();
-    utterance.rate = 0.9;
-    utterance.pitch = 1.05;
+    utterance.rate = UI_CONSTANTS.audioRate;
+    utterance.pitch = UI_CONSTANTS.audioPitch;
     
     utterance.onend = () => {
       if (!isPaused) {
@@ -410,6 +413,7 @@ imageQuizSections.forEach((section) => {
 
   choices.forEach((button) => {
     button.addEventListener("click", () => {
+      if (button.hasAttribute("aria-pressed")) return;
       const isCorrect = button.dataset.choice === correctAnswer;
       if (isCorrect) {
         button.classList.add("is-correct");
@@ -435,7 +439,7 @@ if (summaryBtn && resultBox) {
       decisions[key] = choice;
       const status = wrap.querySelector(".status");
       status.textContent = choice === "allow" ? "Allowed" : "Denied";
-      status.style.color = choice === "allow" ? "#22c55e" : "#ef4444";
+      status.style.color = choice === "allow" ? "var(--color-safe)" : "var(--color-risky)";
     });
   });
 
@@ -465,10 +469,12 @@ if (summaryBtn && resultBox) {
 
 // Back to top visibility + action
 const backToTop = document.getElementById("backToTop");
-window.addEventListener("scroll", () => {
-  backToTop.style.display = window.scrollY > UI_CONSTANTS.backToTopScrollY ? "inline-flex" : "none";
-});
-backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+if (backToTop) {
+  window.addEventListener("scroll", () => {
+    backToTop.style.display = window.scrollY > UI_CONSTANTS.backToTopScrollY ? "inline-flex" : "none";
+  });
+  backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
 
 // Reveal cards on scroll
 const observer = new IntersectionObserver(
