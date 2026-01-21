@@ -241,6 +241,116 @@ document.querySelectorAll("[data-scroll-target]").forEach((btn) => {
   });
 });
 
+// Module read-aloud controls
+const getEnglishVoice = () => {
+  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  const englishVoices = voices.filter((voice) => voice.lang && voice.lang.toLowerCase().startsWith("en"));
+  const preferred = englishVoices.find((voice) =>
+    /natural|neural|premium|google/i.test(voice.name || "")
+  );
+  return preferred || englishVoices.find((voice) => voice.default) || englishVoices[0] || null;
+};
+
+let cachedVoice = null;
+const loadVoices = () => {
+  if (!window.speechSynthesis) return;
+  cachedVoice = getEnglishVoice();
+};
+loadVoices();
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+const normalizeText = (text) => text.replace(/\s+/g, " ").trim();
+
+const createReadAloudControls = (moduleEl) => {
+  const title = moduleEl.querySelector(".module__title");
+  const body = moduleEl.querySelector(".module__body");
+  if (!title || !body || !window.speechSynthesis) return;
+
+  const controls = document.createElement("div");
+  controls.className = "module-audio-controls";
+
+  const readBtn = document.createElement("button");
+  readBtn.className = "btn btn--tiny btn--outline audio-control audio-control--read";
+  readBtn.type = "button";
+  readBtn.textContent = "Read aloud";
+
+  const pauseBtn = document.createElement("button");
+  pauseBtn.className = "btn btn--tiny btn--outline audio-control audio-control--pause";
+  pauseBtn.type = "button";
+  pauseBtn.textContent = "Pause";
+
+  const stopBtn = document.createElement("button");
+  stopBtn.className = "btn btn--tiny btn--outline audio-control audio-control--stop";
+  stopBtn.type = "button";
+  stopBtn.textContent = "Stop";
+
+  controls.append(readBtn, pauseBtn, stopBtn);
+  moduleEl.prepend(controls);
+  moduleEl.classList.add("has-audio-controls");
+
+  let activeUtterance = null;
+  let isPaused = false;
+
+  const speakModule = () => {
+    window.speechSynthesis.cancel();
+    const text = normalizeText(body.textContent);
+    if (!text) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    utterance.voice = cachedVoice || getEnglishVoice();
+    utterance.rate = 0.9;
+    utterance.pitch = 1.05;
+    utterance.onpause = () => {
+      isPaused = true;
+      pauseBtn.textContent = "Resume";
+    };
+    utterance.onresume = () => {
+      isPaused = false;
+      pauseBtn.textContent = "Pause";
+    };
+    utterance.onend = () => {
+      isPaused = false;
+      pauseBtn.textContent = "Pause";
+      activeUtterance = null;
+    };
+    activeUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  readBtn.addEventListener("click", () => {
+    controls.classList.add("is-active");
+    pauseBtn.textContent = "Pause";
+    speakModule();
+  });
+
+  pauseBtn.addEventListener("click", () => {
+    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+      window.speechSynthesis.pause();
+      pauseBtn.textContent = "Resume";
+      isPaused = true;
+      return;
+    }
+    if (window.speechSynthesis.paused || isPaused) {
+      window.speechSynthesis.resume();
+      setTimeout(() => window.speechSynthesis.resume(), 60);
+      pauseBtn.textContent = "Pause";
+      isPaused = false;
+      return;
+    }
+    speakModule();
+  });
+
+  stopBtn.addEventListener("click", () => {
+    window.speechSynthesis.cancel();
+    pauseBtn.textContent = "Pause";
+    activeUtterance = null;
+  });
+};
+
+document.querySelectorAll(".page--modules .module").forEach(createReadAloudControls);
+
 // Willem pair sizing (match AI card height to the real photo)
 const syncWillemPairHeights = () => {
   const pair = document.querySelector(".image-pair--willem");
