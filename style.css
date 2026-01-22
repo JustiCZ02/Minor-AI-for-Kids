@@ -73,7 +73,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav__inner {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 12px 20px;
   display: flex;
@@ -502,6 +502,12 @@ a { color: inherit; text-decoration: none; }
 .page--modules {
   max-width: 960px;
   padding: 2rem 1.5rem 4rem;
+  color: var(--text);
+}
+
+body.theme-dark .page--modules,
+body.theme-dark .page--modules .module {
+  color: #f8fafc;
 }
 
 .page__intro { margin-bottom: 2.5rem; }
@@ -513,6 +519,7 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   position: relative;
+  color: var(--text);
 }
 
 .module__title { margin-bottom: 0.75rem; }
