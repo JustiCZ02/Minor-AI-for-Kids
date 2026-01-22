@@ -192,7 +192,7 @@ function updateModuleUI(card, completed) {
 
 // Module visibility modes (step-by-step vs all)
 const moduleModeButtons = document.querySelectorAll("[data-module-mode]");
-const moduleSections = document.querySelectorAll(".page--modules .module");
+const moduleSections = document.querySelectorAll(".page--modules .module:not(.module--video)");
 const moduleSectionsArr = Array.from(moduleSections);
 const moduleNextButtons = Array.from(document.querySelectorAll(".module__next"));
 let moduleDisplayMode = "sequence";
@@ -231,6 +231,37 @@ if (moduleModeButtons.length && moduleSectionsArr.length) {
   });
 
   applyMode("sequence");
+}
+
+// Bias page video toggle (switch between text modules and video)
+const biasVideoToggle = document.getElementById("biasVideoToggle");
+const biasVideoSection = document.getElementById("biasVideo");
+if (biasVideoToggle && biasVideoSection) {
+  const biasTextModules = document.getElementById("biasTextModules");
+  const moduleModeLabel = document.querySelector(".module-mode-label");
+  const moduleModeButtonsArr = Array.from(document.querySelectorAll("[data-module-mode]"));
+  const videoPlayer = biasVideoSection.querySelector("video");
+
+  const setBiasView = (view) => {
+    const showVideo = view === "video";
+    biasVideoSection.classList.toggle("app-hidden", !showVideo);
+    biasVideoSection.setAttribute("aria-hidden", String(!showVideo));
+    if (biasTextModules) biasTextModules.classList.toggle("app-hidden", showVideo);
+    if (moduleModeLabel) moduleModeLabel.classList.toggle("app-hidden", showVideo);
+    moduleModeButtonsArr.forEach((btn) => btn.classList.toggle("app-hidden", showVideo));
+    biasVideoToggle.classList.toggle("is-active", showVideo);
+    biasVideoToggle.textContent = showVideo ? "Read text" : "Watch video";
+    biasVideoToggle.setAttribute("aria-pressed", String(showVideo));
+    if (!showVideo && videoPlayer) {
+      videoPlayer.pause();
+    }
+  };
+
+  setBiasView("text");
+  biasVideoToggle.addEventListener("click", () => {
+    const isHidden = biasVideoSection.classList.contains("app-hidden");
+    setBiasView(isHidden ? "video" : "text");
+  });
 }
 
 // Quick scroll buttons
@@ -386,7 +417,7 @@ const createReadAloudControls = (moduleEl) => {
   });
 };
 
-document.querySelectorAll(".page--modules .module").forEach(createReadAloudControls);
+document.querySelectorAll(".page--modules .module:not(.module--video)").forEach(createReadAloudControls);
 
 // Willem pair sizing (match AI card height to the real photo)
 const syncWillemPairHeights = () => {

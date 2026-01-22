@@ -22,7 +22,7 @@
   </header>
 
   <main class="page page--modules">
-    <div class="page__intro">
+    <div class="page__intro" id="biasTextIntro">
       <h1>Bias in AI</h1>
       <p>AI is not automatically fair. It can reflect the data, goals, and decisions of the people who build it.</p>
     </div>
@@ -31,9 +31,18 @@
       <span class="module-mode-label">Show modules:</span>
       <button class="btn btn--outline is-active" data-module-mode="sequence">Step by step</button>
       <button class="btn btn--outline" data-module-mode="all">All at once</button>
+      <button class="btn btn--outline" id="biasVideoToggle" type="button">Watch video</button>
     </div>
 
-    <section id="module-1" class="module animate-on-scroll">
+    <section id="biasVideo" class="module module--video app-hidden" aria-hidden="true">
+      <video class="module-video__player" controls preload="metadata">
+        <source src="../assets/vids/AI%20Bias.mp4" type="video/mp4">
+        Sorry, your browser does not support embedded videos.
+      </video>
+    </section>
+
+    <div id="biasTextModules">
+      <section id="module-1" class="module animate-on-scroll">
       <h2 class="module__title">Bias in AI: the big idea</h2>
       <div class="module__body">
         <p>Have you ever thought of an AI as a perfectly fair, robot judge that always makes the right choice. It's a common mistake.</p>
@@ -89,6 +98,7 @@
       </div>
       <a href="ai-safety.html#module-1" class="btn btn--primary module__next">Go to next topic page</a>
     </section>
+    </div>
   </main>
 
   <footer class="site-footer">
